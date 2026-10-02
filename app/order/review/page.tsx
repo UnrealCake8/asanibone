@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { ArrowLeft, CheckCircle2, LoaderCircle, ShieldCheck } from "lucide-react";
-import { readOrderDraft } from "@/lib/order-draft";
+import { clearOrderDraft, readOrderDraft } from "@/lib/order-draft";
 import type { OrderDraft, Quote } from "@/lib/types";
 
 export default function ReviewPage() {
   const [draft, setDraft] = useState<Partial<OrderDraft>>({});
   const [quote, setQuote] = useState<Quote | null>(null);
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const current = readOrderDraft();
@@ -25,6 +26,31 @@ export default function ReviewPage() {
       .then(setQuote)
       .catch((e) => setError(e.message));
   }, []);
+
+  async function createOrder() {
+    setSubmitting(true);
+    setError("");
+    const res = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(draft),
+    });
+
+    if (res.status === 401) {
+      window.location.href = "/login";
+      return;
+    }
+
+    if (!res.ok) {
+      const body = await res.json().catch(() => ({}));
+      setError(body.error || "Could not create order.");
+      setSubmitting(false);
+      return;
+    }
+
+    clearOrderDraft();
+    window.location.href = "/orders";
+  }
 
   return (
     <main className="app-shell">
@@ -52,12 +78,13 @@ export default function ReviewPage() {
         </>}
       </section>
 
-      <section className="notice-card"><ShieldCheck size={20} /><p>Your quote is recalculated on our server. The browser cannot choose its own service or processing fee.</p></section>
+      <section className="notice-card"><ShieldCheck size={20} /><p>The database recalculates pricing again when your order is created.</p></section>
 
-      <button className="primary-button full-width" type="button" disabled={!quote}>
-        <CheckCircle2 size={18} /> Continue to secure payment
+      <button className="primary-button full-width" type="button" onClick={createOrder} disabled={!quote || submitting}>
+        {submitting ? <LoaderCircle className="spin" size={18} /> : <CheckCircle2 size={18} />}
+        {submitting ? "Creating order…" : "Create order"}
       </button>
-      <p className="center-note">Ziina checkout will activate once the server API credentials are connected.</p>
+      <p className="center-note">Payment is the next activation step once Ziina production credentials are connected.</p>
     </main>
   );
 }
