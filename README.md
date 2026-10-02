@@ -2,35 +2,73 @@
 
 Mobile-first Next.js PWA for requesting an item from a physical shop and having it purchased and delivered.
 
-## Stack
+## Architecture
 
-- Next.js 16 App Router
-- React 19
-- Tailwind CSS 4
-- Supabase Cloud (planned: Auth, Postgres, Storage, Realtime)
-- Ziina (server-side payment integration)
-- Manual courier workflow for MVP
-- Vercel deployment
+- Next.js 16 App Router / React 19 / Tailwind CSS 4
+- Vercel target deployment
+- Supabase Auth + Postgres with RLS
+- Ziina payment integration (server-side; credentials required)
+- Manual courier dispatch for the first production phase
+- Installable PWA shell and service worker
 
-## MVP flow
+## Order flow
 
-1. Customer describes an item.
-2. Customer chooses the shop/branch.
-3. Customer sets an expected price and a maximum buffer.
-4. The app calculates item allowance + delivery + service fee + payment processing fee.
-5. Payment is handled server-side through Ziina.
-6. Courier assignment stays manual for V1.
-7. Final item cost can trigger a partial refund if it is below the allowance.
+Customer request → delivery details → server-owned quote → authenticated order creation → Ziina payment → manual courier assignment → purchase → delivery → receipt/final adjustment.
 
-## Local development
+Pricing is always recalculated on the server. Client-supplied totals are never trusted.
+
+## Setup
+
+1. Create a dedicated Supabase project.
+2. Apply `supabase/migrations/0001_initial.sql`.
+3. Copy `.env.example` to `.env.local`.
+4. Add the Supabase project URL, publishable key and secret key.
+5. Add Ziina API credentials.
+6. Run:
 
 ```bash
 npm install
+npm run lint
+npm run typecheck
+npm run build
 npm run dev
 ```
 
-Copy `.env.example` to `.env.local` and fill in your project credentials.
+## Environment
 
-## Security
+```
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SECRET_KEY=
+ZIINA_API_KEY=
+ZIINA_API_BASE_URL=
+```
 
-Never put the Supabase secret key or Ziina API key in browser-side code or `NEXT_PUBLIC_` variables.
+Only the two `NEXT_PUBLIC_` Supabase values may be exposed to the browser. Never expose the Supabase secret key or Ziina API key.
+
+## Database security
+
+All exposed application tables have RLS enabled. Customers can read only their own orders/events. Direct customer writes to orders are revoked: order creation and status/payment mutations go through authenticated server endpoints, which recalculate monetary fields.
+
+Admin authorization should be stored in trusted app metadata or a server-managed database field, never user-editable user metadata.
+
+## Production checklist
+
+Before accepting real orders:
+
+- Dedicated Supabase project connected and migration applied
+- Auth redirect URLs configured for production domain
+- Ziina production credentials configured in Vercel
+- Ziina webhook signature/verification implemented against current Ziina docs
+- Admin route protected with verified claims + server-managed admin authorization
+- Real courier operating process/partner confirmed
+- Refund and cancellation paths tested
+- PWA icons/screenshots added
+- Legal terms, privacy policy, refund/cancellation policy and UAE business/licensing review completed
+- Rate limiting/abuse protection enabled for order/payment endpoints
+- Monitoring/error reporting configured
+- Lockfile generated and CI changed from `npm install` to `npm ci`
+
+## Current limitations
+
+The repository is production-shaped but not yet safe to accept real money. Live Supabase and Ziina credentials have intentionally not been invented or committed. Courier dispatch remains manual.
