@@ -2,30 +2,35 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, MapPin, Phone } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { readOrderDraft, saveOrderDraft } from "@/lib/order-draft";
 
 export default function DeliveryPage() {
+  const router = useRouter();
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
   const [phone, setPhone] = useState("");
 
   useEffect(() => {
     const draft = readOrderDraft();
-    setAddress(draft.deliveryAddress || "");
-    setNotes(draft.deliveryNotes || "");
-    setPhone(draft.phone || "");
+    queueMicrotask(() => {
+      setAddress(draft.deliveryAddress || "");
+      setNotes(draft.deliveryNotes || "");
+      setPhone(draft.phone || "");
+    });
   }, []);
 
   function submit(event: FormEvent) {
     event.preventDefault();
     saveOrderDraft({ deliveryAddress: address, deliveryNotes: notes, phone });
-    window.location.href = "/order/review";
+    router.push("/order/review");
   }
 
   return (
     <main className="app-shell">
       <section className="topbar compact">
-        <a className="icon-button" href="/order/new" aria-label="Back"><ArrowLeft size={20} /></a>
+        <Link className="icon-button" href="/order/new" aria-label="Back"><ArrowLeft size={20} /></Link>
         <div><p className="eyebrow">STEP 2 OF 3</p><h1>Where to?</h1></div>
       </section>
 
