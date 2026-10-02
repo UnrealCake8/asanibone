@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { ArrowLeft, Mail, LoaderCircle } from "lucide-react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
@@ -18,9 +19,7 @@ export default function LoginPage() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
     });
 
     setLoading(false);
@@ -34,7 +33,7 @@ export default function LoginPage() {
   return (
     <main className="app-shell">
       <section className="topbar compact">
-        <a className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></a>
+        <Link className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></Link>
         <div><p className="eyebrow">ASANIBONE</p><h1>Sign in</h1></div>
       </section>
 
