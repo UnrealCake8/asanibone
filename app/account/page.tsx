@@ -1,4 +1,5 @@
 import { ArrowLeft, LogIn, LogOut, UserRound } from "lucide-react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AccountPage() {
@@ -9,7 +10,7 @@ export default async function AccountPage() {
   return (
     <main className="app-shell">
       <section className="topbar compact">
-        <a className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></a>
+        <Link className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></Link>
         <div><p className="eyebrow">PROFILE</p><h1>Account</h1></div>
       </section>
 
@@ -25,9 +26,9 @@ export default async function AccountPage() {
             </form>
           </>
         ) : (
-          <a className="account-link" href="/login">
+          <Link className="account-link" href="/login">
             <LogIn size={19} /><span><strong>Sign in</strong><small>Access your orders and account</small></span>
-          </a>
+          </Link>
         )}
       </section>
     </main>
