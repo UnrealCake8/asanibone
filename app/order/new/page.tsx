@@ -2,10 +2,13 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Camera, Link2, MapPin, Store } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { calculateQuote, DEFAULT_DELIVERY_FEE, DEFAULT_SERVICE_FEE } from "@/lib/pricing";
 import { readOrderDraft, saveOrderDraft } from "@/lib/order-draft";
 
 export default function NewOrderPage() {
+  const router = useRouter();
   const [itemDescription, setItemDescription] = useState("");
   const [productUrl, setProductUrl] = useState("");
   const [storeName, setStoreName] = useState("");
@@ -15,12 +18,14 @@ export default function NewOrderPage() {
 
   useEffect(() => {
     const draft = readOrderDraft();
-    setItemDescription(draft.itemDescription || "");
-    setProductUrl(draft.productUrl || "");
-    setStoreName(draft.storeName || "");
-    setStoreLocation(draft.storeLocation || "");
-    if (typeof draft.estimate === "number") setEstimate(draft.estimate);
-    if (typeof draft.buffer === "number") setBuffer(draft.buffer);
+    queueMicrotask(() => {
+      setItemDescription(draft.itemDescription || "");
+      setProductUrl(draft.productUrl || "");
+      setStoreName(draft.storeName || "");
+      setStoreLocation(draft.storeLocation || "");
+      if (typeof draft.estimate === "number") setEstimate(draft.estimate);
+      if (typeof draft.buffer === "number") setBuffer(draft.buffer);
+    });
   }, []);
 
   const pricing = useMemo(() => calculateQuote(Math.max(0, estimate + buffer)), [estimate, buffer]);
@@ -28,13 +33,13 @@ export default function NewOrderPage() {
   function submit(event: FormEvent) {
     event.preventDefault();
     saveOrderDraft({ itemDescription, productUrl, storeName, storeLocation, estimate, buffer });
-    window.location.href = "/order/delivery";
+    router.push("/order/delivery");
   }
 
   return (
     <main className="app-shell">
       <section className="topbar compact">
-        <a className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></a>
+        <Link className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></Link>
         <div><p className="eyebrow">STEP 1 OF 3</p><h1>What should we get?</h1></div>
       </section>
 
