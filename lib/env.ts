@@ -3,9 +3,13 @@ function required(name: string, value: string | undefined) {
   return value;
 }
 
+const DEFAULT_SUPABASE_URL = "https://smetzgpxvlgkmbaeqais.supabase.co";
+const DEFAULT_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_fsVIfV9_E_WcR3QbZi03Lg_rp-zMqhU";
+
 export const publicEnv = {
-  supabaseUrl: () => required("NEXT_PUBLIC_SUPABASE_URL", process.env.NEXT_PUBLIC_SUPABASE_URL),
-  supabasePublishableKey: () => required("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY", process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY),
+  supabaseUrl: () => process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL,
+  supabasePublishableKey: () =>
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_PUBLISHABLE_KEY,
 };
 
 export const serverEnv = {
