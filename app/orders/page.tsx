@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { ArrowLeft, Clock3, LoaderCircle } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type Order = {
   id: string;
@@ -13,24 +15,25 @@ type Order = {
 };
 
 export default function OrdersPage() {
+  const router = useRouter();
   const [orders, setOrders] = useState<Order[] | null>(null);
 
   useEffect(() => {
     fetch("/api/orders/mine")
       .then(async (res) => {
         if (res.status === 401) {
-          window.location.href = "/login";
+          router.push("/login");
           return { orders: [] };
         }
         return res.json();
       })
       .then((body) => setOrders(body.orders || []));
-  }, []);
+  }, [router]);
 
   return (
     <main className="app-shell">
       <section className="topbar compact">
-        <a className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></a>
+        <Link className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></Link>
         <div><p className="eyebrow">YOUR ORDERS</p><h1>Orders</h1></div>
       </section>
 
@@ -61,7 +64,7 @@ export default function OrdersPage() {
       </section>
 
       <nav className="bottom-nav" aria-label="Primary">
-        <a href="/">Home</a><a className="nav-active" href="/orders">Orders</a><a href="/account">Account</a>
+        <Link href="/">Home</Link><Link className="nav-active" href="/orders">Orders</Link><Link href="/account">Account</Link>
       </nav>
     </main>
   );
