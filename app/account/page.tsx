@@ -1,4 +1,4 @@
-import { ArrowLeft, LogIn, LogOut, UserRound } from "lucide-react";
+import { ArrowLeft, LogIn, LogOut, Mail, ShieldCheck, UserRound } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
@@ -7,30 +7,50 @@ export default async function AccountPage() {
   const { data } = await supabase.auth.getClaims();
   const claims = data?.claims;
 
+  let profile: { full_name: string | null } | null = null;
+  if (claims?.sub) {
+    const { data: row } = await supabase.from("profiles").select("full_name").eq("id", claims.sub).single();
+    profile = row;
+  }
+
   return (
     <main className="app-shell">
       <section className="topbar compact">
         <Link className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></Link>
-        <div><p className="eyebrow">PROFILE</p><h1>Account</h1></div>
+        <div><p className="eyebrow">ACCOUNT</p><h1>Profile</h1></div>
       </section>
 
-      <section className="form-card menu-list">
-        {claims ? (
-          <>
-            <div className="account-summary">
-              <UserRound size={22} />
-              <div><strong>Signed in</strong><small>{String(claims.email || "")}</small></div>
+      {claims ? (
+        <>
+          <section className="profile-card">
+            <div className="profile-avatar"><UserRound size={26} /></div>
+            <div>
+              <strong>{profile?.full_name || "ASANIBONE customer"}</strong>
+              <span>{String(claims.email || "")}</span>
             </div>
+          </section>
+
+          <section className="settings-card">
+            <div className="settings-row"><Mail size={19} /><div><strong>Email</strong><span>{String(claims.email || "")}</span></div></div>
+            <div className="settings-row"><ShieldCheck size={19} /><div><strong>Account security</strong><span>Password-protected Supabase account</span></div></div>
             <form action="/api/account/signout" method="post">
-              <button type="submit"><LogOut size={19} /><span><strong>Sign out</strong><small>Sign out of this device</small></span></button>
+              <button className="settings-row danger-row" type="submit"><LogOut size={19} /><div><strong>Sign out</strong><span>Sign out of this device</span></div></button>
             </form>
-          </>
-        ) : (
-          <Link className="account-link" href="/login">
-            <LogIn size={19} /><span><strong>Sign in</strong><small>Access your orders and account</small></span>
-          </Link>
-        )}
-      </section>
+          </section>
+        </>
+      ) : (
+        <section className="auth-prompt-card">
+          <div className="profile-avatar"><LogIn size={24} /></div>
+          <div><h2>Sign in to ASANIBONE</h2><p>Access your real orders and account details.</p></div>
+          <Link className="primary-button" href="/login">Sign in or create account</Link>
+        </section>
+      )}
+
+      <nav className="bottom-nav" aria-label="Primary">
+        <Link href="/">Home</Link>
+        <Link href="/orders">Orders</Link>
+        <Link className="nav-active" href="/account">Account</Link>
+      </nav>
     </main>
   );
 }
