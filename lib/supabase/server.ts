@@ -1,17 +1,18 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { publicEnv } from "@/lib/env";
+import type { Database } from "@/lib/database.types";
 
 export async function createClient() {
   const cookieStore = await cookies();
-  return createServerClient(publicEnv.supabaseUrl(), publicEnv.supabasePublishableKey(), {
+  return createServerClient<Database>(publicEnv.supabaseUrl(), publicEnv.supabasePublishableKey(), {
     cookies: {
       getAll() { return cookieStore.getAll(); },
       setAll(cookiesToSet) {
         try {
           cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options));
         } catch {
-          // Cookie refresh is handled by proxy.ts for Server Component reads.
+          // proxy.ts handles refresh cookie writes for Server Component reads.
         }
       },
     },
