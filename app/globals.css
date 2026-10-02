@@ -228,3 +228,29 @@ textarea {
   .quick-action { min-height: 54px; flex-direction: row; }
   .split-grid { grid-template-columns: 1fr; }
 }
+
+
+.optional { color: var(--muted); font-weight: 500; margin-left: 5px; }
+.notice-card { margin-top: 14px; display: flex; align-items: flex-start; gap: 10px; padding: 14px; border: 1px solid var(--line); border-radius: 18px; background: rgba(243,255,74,.05); }
+.notice-card p, .center-note { margin: 0; color: var(--muted); font-size: .84rem; line-height: 1.45; }
+.center-note { text-align: center; margin-top: 10px; }
+.review-details > div { display: grid; gap: 4px; border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+.review-details > div:last-child { border-bottom: 0; padding-bottom: 0; }
+.review-details span { color: var(--muted); font-size: .8rem; }
+.loading-row { justify-content: flex-start !important; color: var(--muted); }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+button:disabled { opacity: .45; cursor: not-allowed; }
+.admin-shell { max-width: 1050px; margin: 0 auto; min-height: 100svh; padding: 40px 22px; }
+.admin-heading h1 { margin: 4px 0; font-size: 2.5rem; letter-spacing: -.05em; }
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 28px 0; }
+.stat-grid article { min-height: 130px; display: flex; flex-direction: column; justify-content: space-between; padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 22px; }
+.stat-grid span { color: var(--muted); font-size: .86rem; }
+.stat-grid strong { font-size: 1.35rem; }
+.admin-panel { padding: 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 24px; }
+.admin-table { display: grid; }
+.admin-table article { display: grid; grid-template-columns: 44px 1fr auto; gap: 13px; align-items: center; padding: 15px 0; border-top: 1px solid var(--line); }
+.admin-table article > div:nth-child(2), .admin-money { display: flex; flex-direction: column; gap: 3px; }
+.admin-table small, .admin-table span { color: var(--muted); }
+.admin-money { text-align: right; }
+@media (max-width: 700px) { .stat-grid { grid-template-columns: 1fr 1fr; } .admin-shell { padding: 24px 16px; } }
