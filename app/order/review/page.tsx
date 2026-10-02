@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { ArrowLeft, CheckCircle2, LoaderCircle, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { clearOrderDraft, readOrderDraft } from "@/lib/order-draft";
 import type { OrderDraft, Quote } from "@/lib/types";
 
 export default function ReviewPage() {
+  const router = useRouter();
   const [draft, setDraft] = useState<Partial<OrderDraft>>({});
   const [quote, setQuote] = useState<Quote | null>(null);
   const [error, setError] = useState("");
@@ -13,7 +16,8 @@ export default function ReviewPage() {
 
   useEffect(() => {
     const current = readOrderDraft();
-    setDraft(current);
+    queueMicrotask(() => setDraft(current));
+
     fetch("/api/quote", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -37,7 +41,7 @@ export default function ReviewPage() {
     });
 
     if (res.status === 401) {
-      window.location.href = "/login";
+      router.push("/login");
       return;
     }
 
@@ -49,13 +53,13 @@ export default function ReviewPage() {
     }
 
     clearOrderDraft();
-    window.location.href = "/orders";
+    router.push("/orders");
   }
 
   return (
     <main className="app-shell">
       <section className="topbar compact">
-        <a className="icon-button" href="/order/delivery" aria-label="Back"><ArrowLeft size={20} /></a>
+        <Link className="icon-button" href="/order/delivery" aria-label="Back"><ArrowLeft size={20} /></Link>
         <div><p className="eyebrow">STEP 3 OF 3</p><h1>Review</h1></div>
       </section>
 
