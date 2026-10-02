@@ -2,15 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Camera, Link2, MapPin, Store } from "lucide-react";
-
-const DELIVERY_FEE = 20;
-const SERVICE_FEE = 10;
-const ZIINA_PERCENT = 0.026;
-const ZIINA_FIXED = 1;
-
-function paymentFeeFor(desiredNet: number) {
-  return Math.ceil(((desiredNet + ZIINA_FIXED) / (1 - ZIINA_PERCENT) - desiredNet) * 100) / 100;
-}
+import {
+  calculateQuote,
+  DEFAULT_DELIVERY_FEE,
+  DEFAULT_SERVICE_FEE,
+} from "@/lib/pricing";
 
 export default function NewOrderPage() {
   const [estimate, setEstimate] = useState(100);
@@ -18,10 +14,7 @@ export default function NewOrderPage() {
 
   const pricing = useMemo(() => {
     const itemAllowance = Math.max(0, estimate + buffer);
-    const desiredNet = itemAllowance + DELIVERY_FEE + SERVICE_FEE;
-    const paymentFee = paymentFeeFor(desiredNet);
-    const total = desiredNet + paymentFee;
-    return { itemAllowance, paymentFee, total };
+    return calculateQuote(itemAllowance);
   }, [estimate, buffer]);
 
   return (
@@ -90,8 +83,8 @@ export default function NewOrderPage() {
 
       <section className="price-card">
         <div><span>Item allowance</span><strong>AED {pricing.itemAllowance.toFixed(2)}</strong></div>
-        <div><span>Delivery</span><strong>AED {DELIVERY_FEE.toFixed(2)}</strong></div>
-        <div><span>Service fee</span><strong>AED {SERVICE_FEE.toFixed(2)}</strong></div>
+        <div><span>Delivery</span><strong>AED {DEFAULT_DELIVERY_FEE.toFixed(2)}</strong></div>
+        <div><span>Service fee</span><strong>AED {DEFAULT_SERVICE_FEE.toFixed(2)}</strong></div>
         <div><span>Payment fee</span><strong>AED {pricing.paymentFee.toFixed(2)}</strong></div>
         <div className="price-total"><span>Maximum charge</span><strong>AED {pricing.total.toFixed(2)}</strong></div>
         <p>If the item costs less than your allowance, the difference can be refunded after purchase.</p>
