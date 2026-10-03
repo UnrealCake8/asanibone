@@ -19,17 +19,50 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<Order[] | null>(null);
 
   useEffect(() => {
-    fetch("/api/orders/mine")
-      .then(async (res) => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const res = await fetch("/api/orders/mine");
         if (res.status === 401) {
           router.push("/login");
-          return { orders: [] };
+          return;
         }
         if (!res.ok) throw new Error("Could not load orders");
-        return res.json();
-      })
-      .then((body) => setOrders(body.orders || []))
-      .catch(() => setOrders([]));
+
+        const body = await res.json();
+        const rows: Order[] = body.orders || [];
+
+        if (!cancelled) setOrders(rows);
+
+        const awaiting = rows.filter((order) => order.status === "awaiting_payment");
+        if (awaiting.length === 0) return;
+
+        const results = await Promise.all(
+          awaiting.map((order) =>
+            fetch("/api/payments/ziina/sync", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ orderId: order.id }),
+            }).then((response) => response.json().catch(() => ({})))
+          )
+        );
+
+        if (!results.some((result) => result.orderStatus === "paid")) return;
+
+        const refreshed = await fetch("/api/orders/mine");
+        if (!refreshed.ok) return;
+        const refreshedBody = await refreshed.json();
+        if (!cancelled) setOrders(refreshedBody.orders || []);
+      } catch {
+        if (!cancelled) setOrders([]);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
   }, [router]);
 
   return (
