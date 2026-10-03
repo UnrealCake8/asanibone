@@ -1,10 +1,10 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { ArrowLeft, ArrowRight, Camera, Link2, MapPin, Store } from "lucide-react";
+import { ArrowLeft, ArrowRight, Link2, MapPin, Store } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { calculateQuote, DEFAULT_DELIVERY_FEE, DEFAULT_SERVICE_FEE } from "@/lib/pricing";
+import { calculateQuote } from "@/lib/pricing";
 import { readOrderDraft, saveOrderDraft } from "@/lib/order-draft";
 
 export default function NewOrderPage() {
@@ -28,7 +28,7 @@ export default function NewOrderPage() {
     });
   }, []);
 
-  const pricing = useMemo(() => calculateQuote(Math.max(0, estimate + buffer)), [estimate, buffer]);
+  const quote = useMemo(() => calculateQuote(Math.max(0, estimate + buffer)), [estimate, buffer]);
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -37,34 +37,33 @@ export default function NewOrderPage() {
   }
 
   return (
-    <main className="app-shell">
+    <main className="app-shell request-shell">
       <section className="topbar compact">
         <Link className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></Link>
-        <div><p className="eyebrow">STEP 1 OF 3</p><h1>What should we get?</h1></div>
+        <div><p className="eyebrow">STEP 1 OF 3</p><h1>Request</h1></div>
       </section>
 
-      <form onSubmit={submit}>
-        <section className="form-card">
-          <label>Item
-            <textarea required value={itemDescription} onChange={(e) => setItemDescription(e.target.value)} placeholder="Describe the exact item, size, colour, quantity, etc." rows={4} />
+      <form className="request-layout" onSubmit={submit}>
+        <section className="form-card request-main-card">
+          <label>What do you need?
+            <textarea required value={itemDescription} onChange={(e) => setItemDescription(e.target.value)} placeholder="Item, size, colour, quantity…" rows={4} />
           </label>
 
           <label>Product link <span className="optional">Optional</span>
             <div className="input-row"><Link2 size={18} /><input type="url" value={productUrl} onChange={(e) => setProductUrl(e.target.value)} placeholder="https://…" /></div>
           </label>
 
-          <div className="inline-actions"><button type="button"><Camera size={18} /> Photo upload coming next</button></div>
-
-          <label>Store
-            <div className="input-row"><Store size={18} /><input required value={storeName} onChange={(e) => setStoreName(e.target.value)} placeholder="Store name" /></div>
-          </label>
-
-          <label>Store location
-            <div className="input-row"><MapPin size={18} /><input required value={storeLocation} onChange={(e) => setStoreLocation(e.target.value)} placeholder="Mall, branch or area" /></div>
-          </label>
+          <div className="desktop-field-grid">
+            <label>Store
+              <div className="input-row"><Store size={18} /><input required value={storeName} onChange={(e) => setStoreName(e.target.value)} placeholder="Store name" /></div>
+            </label>
+            <label>Branch / area
+              <div className="input-row"><MapPin size={18} /><input required value={storeLocation} onChange={(e) => setStoreLocation(e.target.value)} placeholder="Mall or area" /></div>
+            </label>
+          </div>
 
           <div className="split-grid">
-            <label>Expected item price
+            <label>Expected price
               <div className="money-input"><span>AED</span><input required min="0" step="0.01" type="number" value={estimate} onChange={(e) => setEstimate(Number(e.target.value || 0))} /></div>
             </label>
             <label>Price buffer
@@ -73,16 +72,14 @@ export default function NewOrderPage() {
           </div>
         </section>
 
-        <section className="price-card">
-          <div><span>Item allowance</span><strong>AED {pricing.itemAllowance.toFixed(2)}</strong></div>
-          <div><span>Delivery</span><strong>AED {DEFAULT_DELIVERY_FEE.toFixed(2)}</strong></div>
-          <div><span>Service fee</span><strong>AED {DEFAULT_SERVICE_FEE.toFixed(2)}</strong></div>
-          <div><span>Estimated payment fee</span><strong>AED {pricing.paymentFee.toFixed(2)}</strong></div>
-          <div className="price-total"><span>Estimated maximum</span><strong>AED {pricing.total.toFixed(2)}</strong></div>
-          <p>The final quote is recalculated securely on our server before payment.</p>
-        </section>
-
-        <button className="primary-button full-width" type="submit">Continue to delivery <ArrowRight size={18} /></button>
+        <aside className="request-summary-card">
+          <div><span>Item allowance</span><strong>AED {quote.itemAllowance.toFixed(2)}</strong></div>
+          <div><span>Delivery</span><strong>AED {quote.deliveryFee.toFixed(2)}</strong></div>
+          <div><span>Service fee</span><strong>AED {quote.serviceFee.toFixed(2)}</strong></div>
+          <div><span>Payment fee</span><strong>AED {quote.paymentFee.toFixed(2)}</strong></div>
+          <div className="summary-total"><span>Estimated maximum</span><strong>AED {quote.total.toFixed(2)}</strong></div>
+          <button className="primary-button" type="submit">Continue <ArrowRight size={18} /></button>
+        </aside>
       </form>
     </main>
   );
