@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, CheckCircle2, LoaderCircle, ShieldCheck } from "lucide-react";
+import { ArrowLeft, CreditCard, LoaderCircle, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { clearOrderDraft, readOrderDraft } from "@/lib/order-draft";
@@ -31,64 +31,85 @@ export default function ReviewPage() {
       .catch((e) => setError(e.message));
   }, []);
 
-  async function createOrder() {
+  async function payWithZiina() {
     setSubmitting(true);
     setError("");
-    const res = await fetch("/api/orders", {
+
+    const orderResponse = await fetch("/api/orders", {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(draft),
     });
 
-    if (res.status === 401) {
+    if (orderResponse.status === 401) {
       router.push("/login");
       return;
     }
 
-    if (!res.ok) {
-      const body = await res.json().catch(() => ({}));
+    if (!orderResponse.ok) {
+      const body = await orderResponse.json().catch(() => ({}));
       setError(body.error || "Could not create order.");
       setSubmitting(false);
       return;
     }
 
+    const orderBody = await orderResponse.json();
+
+    const paymentResponse = await fetch("/api/payments/ziina/create", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ orderId: orderBody.order.id }),
+    });
+
+    if (!paymentResponse.ok) {
+      const body = await paymentResponse.json().catch(() => ({}));
+      setError(body.error || "Could not start payment.");
+      setSubmitting(false);
+      router.push("/orders");
+      return;
+    }
+
+    const payment = await paymentResponse.json();
     clearOrderDraft();
-    router.push("/orders");
+    window.location.assign(payment.redirectUrl);
   }
 
   return (
-    <main className="app-shell">
+    <main className="app-shell request-shell">
       <section className="topbar compact">
         <Link className="icon-button" href="/order/delivery" aria-label="Back"><ArrowLeft size={20} /></Link>
         <div><p className="eyebrow">STEP 3 OF 3</p><h1>Review</h1></div>
       </section>
 
-      <section className="form-card review-details">
-        <div><span>Item</span><strong>{draft.itemDescription || "Not provided"}</strong></div>
-        <div><span>Store</span><strong>{draft.storeName || "Not provided"}</strong></div>
-        <div><span>Branch / area</span><strong>{draft.storeLocation || "Not provided"}</strong></div>
-        <div><span>Deliver to</span><strong>{draft.deliveryAddress || "Not provided"}</strong></div>
-      </section>
+      <div className="request-layout">
+        <section className="form-card review-details request-main-card">
+          <div><span>Item</span><strong>{draft.itemDescription || "Not provided"}</strong></div>
+          <div><span>Store</span><strong>{draft.storeName || "Not provided"}</strong></div>
+          <div><span>Branch</span><strong>{draft.storeLocation || "Not provided"}</strong></div>
+          <div><span>Deliver to</span><strong>{draft.deliveryAddress || "Not provided"}</strong></div>
+        </section>
 
-      <section className="price-card">
-        {!quote && !error && <div className="loading-row"><LoaderCircle className="spin" size={18} /> Calculating secure quote…</div>}
-        {error && <p>{error}</p>}
-        {quote && <>
-          <div><span>Item allowance</span><strong>AED {quote.itemAllowance.toFixed(2)}</strong></div>
-          <div><span>Delivery</span><strong>AED {quote.deliveryFee.toFixed(2)}</strong></div>
-          <div><span>Service fee</span><strong>AED {quote.serviceFee.toFixed(2)}</strong></div>
-          <div><span>Payment fee</span><strong>AED {quote.paymentFee.toFixed(2)}</strong></div>
-          <div className="price-total"><span>Maximum charge</span><strong>AED {quote.total.toFixed(2)}</strong></div>
-        </>}
-      </section>
+        <aside className="request-summary-card">
+          {!quote && !error ? <div className="loading-row"><LoaderCircle className="spin" size={18} /> Calculating…</div> : null}
+          {error ? <p className="form-error">{error}</p> : null}
+          {quote ? (
+            <>
+              <div><span>Item allowance</span><strong>AED {quote.itemAllowance.toFixed(2)}</strong></div>
+              <div><span>Delivery</span><strong>AED {quote.deliveryFee.toFixed(2)}</strong></div>
+              <div><span>Service fee</span><strong>AED {quote.serviceFee.toFixed(2)}</strong></div>
+              <div><span>Payment fee</span><strong>AED {quote.paymentFee.toFixed(2)}</strong></div>
+              <div className="summary-total"><span>Total</span><strong>AED {quote.total.toFixed(2)}</strong></div>
+            </>
+          ) : null}
 
-      <section className="notice-card"><ShieldCheck size={20} /><p>The database recalculates pricing again when your order is created.</p></section>
+          <div className="secure-note"><ShieldCheck size={17} /><span>Secure checkout powered by Ziina</span></div>
 
-      <button className="primary-button full-width" type="button" onClick={createOrder} disabled={!quote || submitting}>
-        {submitting ? <LoaderCircle className="spin" size={18} /> : <CheckCircle2 size={18} />}
-        {submitting ? "Creating order…" : "Create order"}
-      </button>
-      <p className="center-note">Payment is the next activation step once Ziina production credentials are connected.</p>
+          <button className="primary-button" type="button" onClick={payWithZiina} disabled={!quote || submitting}>
+            {submitting ? <LoaderCircle className="spin" size={18} /> : <CreditCard size={18} />}
+            {submitting ? "Opening Ziina…" : "Pay with Ziina"}
+          </button>
+        </aside>
+      </div>
     </main>
   );
 }
