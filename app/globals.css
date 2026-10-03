@@ -798,3 +798,19 @@ body {
       linear-gradient(180deg, #0b0b0c 0%, #0d0d10 100%);
   }
 }
+
+.desktop-section-title { display: none; }
+.desktop-content-narrow { width: 100%; }
+
+@media (min-width: 900px) {
+  .app-shell:not(.desktop-app-shell):not(.request-shell):not(.auth-shell):not(.payment-result-shell) {
+    width: min(100%, 520px);
+  }
+  .mobile-page-heading { display: none; }
+  .desktop-section-title { display: flex; margin-bottom: 18px; }
+  .desktop-section-title h2 { margin-top: 3px; font-size: 1.55rem; }
+  .desktop-content-narrow {
+    width: min(100%, 820px);
+    margin: 0 auto;
+  }
+}
