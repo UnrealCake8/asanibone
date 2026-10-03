@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, Clock3, LoaderCircle, PackageOpen } from "lucide-react";
+import { Clock3, LoaderCircle, PackageOpen } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -33,47 +33,65 @@ export default function OrdersPage() {
   }, [router]);
 
   return (
-    <main className="app-shell">
-      <section className="topbar compact">
-        <Link className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></Link>
+    <main className="app-shell desktop-app-shell">
+      <header className="desktop-header">
+        <Link className="desktop-brand" href="/">
+          <span className="brand-mark">A</span>
+          <span><strong>ASANIBONE</strong><small>Local pickup, delivered</small></span>
+        </Link>
+        <nav className="desktop-links" aria-label="Desktop navigation">
+          <Link href="/">Home</Link>
+          <Link className="active" href="/orders">Orders</Link>
+          <Link href="/account">Account</Link>
+        </nav>
+      </header>
+
+      <section className="topbar compact mobile-page-heading">
         <div><p className="eyebrow">YOUR ACTIVITY</p><h1>Orders</h1></div>
       </section>
 
-      <section className="order-list spacious">
-        {orders === null ? (
-          <div className="empty-state">
-            <div className="empty-icon"><LoaderCircle className="spin" size={21} /></div>
-            <div><strong>Loading your orders</strong><span>One moment…</span></div>
-          </div>
-        ) : null}
+      <section className="desktop-content-narrow">
+        <div className="section-heading desktop-section-title">
+          <div><p className="eyebrow">YOUR ACTIVITY</p><h2>Orders</h2></div>
+          <Link href="/order/new">New request</Link>
+        </div>
 
-        {orders?.length === 0 ? (
-          <div className="empty-panel">
-            <div className="large-empty-icon"><PackageOpen size={30} /></div>
-            <h2>No orders yet</h2>
-            <p>When you place a real request, it&apos;ll show up here with its live status.</p>
-            <Link className="primary-button" href="/order/new">Start your first request</Link>
-          </div>
-        ) : null}
+        <div className="order-list spacious">
+          {orders === null ? (
+            <div className="empty-state">
+              <div className="empty-icon"><LoaderCircle className="spin" size={21} /></div>
+              <div><strong>Loading your orders</strong><span>One moment…</span></div>
+            </div>
+          ) : null}
 
-        {orders?.map((order) => (
-          <article className="order-card order-card-polished" key={order.id}>
-            <div className="order-leading">
-              <div className="empty-icon"><Clock3 size={18} /></div>
-              <div>
-                <strong>{order.item_description}</strong>
-                <span>{order.store_name}</span>
+          {orders?.length === 0 ? (
+            <div className="empty-panel">
+              <div className="large-empty-icon"><PackageOpen size={30} /></div>
+              <h2>No orders yet</h2>
+              <p>When you place a real request, it&apos;ll show up here with its live status.</p>
+              <Link className="primary-button" href="/order/new">Start your first request</Link>
+            </div>
+          ) : null}
+
+          {orders?.map((order) => (
+            <article className="order-card order-card-polished" key={order.id}>
+              <div className="order-leading">
+                <div className="empty-icon"><Clock3 size={18} /></div>
+                <div>
+                  <strong>{order.item_description}</strong>
+                  <span>{order.store_name}</span>
+                </div>
               </div>
-            </div>
-            <div className="order-trailing">
-              <strong>AED {Number(order.quoted_total).toFixed(2)}</strong>
-              <span className="status-pill">{order.status.replaceAll("_", " ")}</span>
-            </div>
-          </article>
-        ))}
+              <div className="order-trailing">
+                <strong>AED {Number(order.quoted_total).toFixed(2)}</strong>
+                <span className="status-pill">{order.status.replaceAll("_", " ")}</span>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
-      <nav className="bottom-nav" aria-label="Primary">
+      <nav className="bottom-nav mobile-only-nav" aria-label="Primary">
         <Link href="/">Home</Link>
         <Link className="nav-active" href="/orders">Orders</Link>
         <Link href="/account">Account</Link>
