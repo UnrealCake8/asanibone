@@ -13,6 +13,9 @@ export const publicEnv = {
 };
 
 export const serverEnv = {
+  supabaseSecretKey: () => required("SUPABASE_SECRET_KEY", process.env.SUPABASE_SECRET_KEY),
   ziinaApiKey: () => required("ZIINA_API_KEY", process.env.ZIINA_API_KEY),
-  ziinaApiBaseUrl: () => required("ZIINA_API_BASE_URL", process.env.ZIINA_API_BASE_URL),
+  ziinaApiBaseUrl: () => process.env.ZIINA_API_BASE_URL || "https://api-v2.ziina.com",
+  ziinaWebhookSecret: () => required("ZIINA_WEBHOOK_SECRET", process.env.ZIINA_WEBHOOK_SECRET),
+  ziinaTestMode: () => process.env.ZIINA_TEST_MODE === "true",
 };
