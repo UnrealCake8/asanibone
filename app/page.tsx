@@ -58,7 +58,7 @@ export default async function HomePage() {
       <section className="services-panel">
         <div className="super-section-title"><h2>What do you need?</h2><span>asanibONE services</span></div>
         <div className="service-grid">
-          <Link href="/order/new"><span className="service-art"><ShoppingBag size={31} /></span><strong>Shop</strong><small>Anything local</small></Link>
+          <Link href="/shop"><span className="service-art"><ShoppingBag size={31} /></span><strong>Shop</strong><small>Browse stores</small></Link>
           <Link href="/order/new"><span className="service-art"><Package size={31} /></span><strong>Pickup</strong><small>Collect & deliver</small></Link>
           <Link href="/orders"><span className="service-art"><Clock3 size={31} /></span><strong>Orders</strong><small>Track activity</small></Link>
           <Link href="/account"><span className="service-art"><UserRound size={31} /></span><strong>Account</strong><small>Your profile</small></Link>
