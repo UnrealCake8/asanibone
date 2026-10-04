@@ -124,10 +124,11 @@ export default function OrdersPage() {
         </div>
       </section>
 
-      <nav className="bottom-nav mobile-only-nav" aria-label="Primary">
-        <Link href="/">Home</Link>
-        <Link className="nav-active" href="/orders">Orders</Link>
-        <Link href="/account">Account</Link>
+      <nav className="bottom-nav mobile-only-nav super-bottom-nav" aria-label="Primary">
+        <Link href="/"><span>⌂</span>Home</Link>
+        <Link className="nav-active" href="/orders"><span>▤</span>Orders</Link>
+        <Link href="/order/new"><span>＋</span>Order</Link>
+        <Link href="/account"><span>♙</span>Account</Link>
       </nav>
     </main>
   );
