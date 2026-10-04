@@ -54,7 +54,7 @@ export async function POST(request: Request) {
     body: JSON.stringify({
       amount,
       currency_code: "AED",
-      message: `ASANIBONE order ${order.id.slice(0, 8)}`,
+      message: `Asanib order ${order.id.slice(0, 8)}`,
       success_url: `${origin}/payment/success?order=${encodeURIComponent(order.id)}&payment={PAYMENT_INTENT_ID}`,
       cancel_url: `${origin}/payment/cancel?order=${encodeURIComponent(order.id)}`,
       failure_url: `${origin}/payment/failure?order=${encodeURIComponent(order.id)}`,
