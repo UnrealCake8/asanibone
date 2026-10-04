@@ -70,7 +70,7 @@ export default function OrdersPage() {
       <header className="desktop-header">
         <Link className="desktop-brand" href="/">
           <img className="brand-logo" src="/icon.svg" alt="Asanib" />
-          <span><strong>ASANIBONE</strong><small>Local pickup, delivered</small></span>
+          <span><strong>Asanib</strong><small>Local pickup, delivered</small></span>
         </Link>
         <nav className="desktop-links" aria-label="Desktop navigation">
           <Link href="/">Home</Link>
@@ -123,13 +123,6 @@ export default function OrdersPage() {
           ))}
         </div>
       </section>
-
-      <nav className="bottom-nav mobile-only-nav super-bottom-nav" aria-label="Primary">
-        <Link href="/"><span>⌂</span>Home</Link>
-        <Link className="nav-active" href="/orders"><span>▤</span>Orders</Link>
-        <Link href="/order/new"><span>＋</span>Order</Link>
-        <Link href="/account"><span>♙</span>Account</Link>
-      </nav>
     </main>
   );
 }
