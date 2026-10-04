@@ -18,7 +18,7 @@ export default async function AccountPage() {
       <header className="desktop-header">
         <Link className="desktop-brand" href="/">
           <img className="brand-logo" src="/icon.svg" alt="Asanib" />
-          <span><strong>ASANIBONE</strong><small>Local pickup, delivered</small></span>
+          <span><strong>Asanib</strong><small>Local pickup, delivered</small></span>
         </Link>
         <nav className="desktop-links" aria-label="Desktop navigation">
           <Link href="/">Home</Link>
@@ -41,7 +41,7 @@ export default async function AccountPage() {
             <section className="profile-card">
               <div className="profile-avatar"><UserRound size={26} /></div>
               <div>
-                <strong>{profile?.full_name || "ASANIBONE customer"}</strong>
+                <strong>{profile?.full_name || "Asanib customer"}</strong>
                 <span>{String(claims.email || "")}</span>
               </div>
             </section>
@@ -57,18 +57,11 @@ export default async function AccountPage() {
         ) : (
           <section className="auth-prompt-card">
             <div className="profile-avatar"><LogIn size={24} /></div>
-            <div><h2>Sign in to ASANIBONE</h2><p>Access your orders and account details.</p></div>
+            <div><h2>Sign in to Asanib</h2><p>Access your orders and account details.</p></div>
             <Link className="primary-button" href="/login">Sign in or create account</Link>
           </section>
         )}
       </section>
-
-      <nav className="bottom-nav mobile-only-nav super-bottom-nav" aria-label="Primary">
-        <Link href="/"><span>⌂</span>Home</Link>
-        <Link href="/orders"><span>▤</span>Orders</Link>
-        <Link href="/order/new"><span>＋</span>Order</Link>
-        <Link className="nav-active" href="/account"><span>♙</span>Account</Link>
-      </nav>
     </main>
   );
 }
