@@ -1,4 +1,4 @@
-import { ArrowRight, Clock3, MapPin, Package, Search, ShoppingBag, UserRound } from "lucide-react";
+import { ArrowRight, Clock3, MapPin, Package, ShoppingBag, UserRound } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
@@ -24,7 +24,7 @@ export default async function HomePage() {
       <header className="desktop-header">
         <Link className="desktop-brand" href="/">
           <img className="brand-logo" src="/icon.svg" alt="Asanib" />
-          <span><strong>ASANIBONE</strong><small>Local pickup, delivered</small></span>
+          <span><strong>Asanib</strong><small>Local pickup, delivered</small></span>
         </Link>
         <nav className="desktop-links" aria-label="Desktop navigation">
           <Link className="active" href="/">Home</Link><Link href="/orders">Orders</Link><Link href="/account">Account</Link>
@@ -33,16 +33,12 @@ export default async function HomePage() {
 
       <section className="super-mobile-brand">
         <img className="brand-logo" src="/icon.svg" alt="Asanib" />
-        <div><strong>{firstName ? `Hi, ${firstName}` : "asanibONE"}</strong><span>What can we get for you?</span></div>
+        <div><strong>{firstName ? `Hi, ${firstName}` : "Asanib"}</strong><span>What can we get for you?</span></div>
       </section>
-
-      <Link className="super-search" href="/order/new">
-        <Search size={23} /><span>What do you need?</span>
-      </Link>
 
       <section className="super-hero">
         <div>
-          <p className="eyebrow">ASANIBONE</p>
+          <p className="eyebrow">Asanib</p>
           <h1>Anything local.<br />One request away.</h1>
           <p>Tell us what you need and where it is. We&apos;ll handle the pickup and delivery.</p>
           <Link className="super-hero-link" href="/order/new">Order now <ArrowRight size={18} /></Link>
@@ -56,7 +52,7 @@ export default async function HomePage() {
       </Link>
 
       <section className="services-panel">
-        <div className="super-section-title"><h2>What do you need?</h2><span>asanibONE services</span></div>
+        <div className="super-section-title"><h2>What do you need?</h2><span>Asanib services</span></div>
         <div className="service-grid">
           <Link href="/shop"><span className="service-art"><ShoppingBag size={31} /></span><strong>Shop</strong><small>Browse stores</small></Link>
           <Link href="/order/new"><span className="service-art"><Package size={31} /></span><strong>Pickup</strong><small>Collect & deliver</small></Link>
@@ -78,13 +74,6 @@ export default async function HomePage() {
           )}
         </section>
       </section>
-
-      <nav className="bottom-nav mobile-only-nav super-bottom-nav" aria-label="Primary">
-        <Link className="nav-active" href="/"><span>⌂</span>Home</Link>
-        <Link href="/orders"><span>▤</span>Orders</Link>
-        <Link href="/order/new"><span>＋</span>Order</Link>
-        <Link href="/account"><span>♙</span>Account</Link>
-      </nav>
     </main>
   );
 }
