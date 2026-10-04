@@ -46,6 +46,98 @@ export type Database = {
           },
         ]
       }
+      merchants: {
+        Row: {
+          active: boolean
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          active: boolean
+          compare_at_price: number | null
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          in_stock: boolean
+          merchant_id: string
+          name: string
+          price: number
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          compare_at_price?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          in_stock?: boolean
+          merchant_id: string
+          name: string
+          price: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          compare_at_price?: number | null
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          in_stock?: boolean
+          merchant_id?: string
+          name?: string
+          price?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_merchant_id_fkey"
+            columns: ["merchant_id"]
+            isOneToOne: false
+            referencedRelation: "merchants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           courier_provider: string
