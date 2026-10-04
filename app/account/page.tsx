@@ -63,10 +63,11 @@ export default async function AccountPage() {
         )}
       </section>
 
-      <nav className="bottom-nav mobile-only-nav" aria-label="Primary">
-        <Link href="/">Home</Link>
-        <Link href="/orders">Orders</Link>
-        <Link className="nav-active" href="/account">Account</Link>
+      <nav className="bottom-nav mobile-only-nav super-bottom-nav" aria-label="Primary">
+        <Link href="/"><span>⌂</span>Home</Link>
+        <Link href="/orders"><span>▤</span>Orders</Link>
+        <Link href="/order/new"><span>＋</span>Order</Link>
+        <Link className="nav-active" href="/account"><span>♙</span>Account</Link>
       </nav>
     </main>
   );
