@@ -814,3 +814,80 @@ body {
     margin: 0 auto;
   }
 }
+
+
+/* Responsive brand + mobile order card fixes */
+.brand-logo {
+  width: 46px;
+  height: 46px;
+  display: block;
+  flex: 0 0 46px;
+  border-radius: 15px;
+  object-fit: contain;
+}
+
+.order-card,
+.order-leading,
+.order-leading > div:last-child,
+.order-trailing {
+  min-width: 0;
+}
+
+@media (max-width: 899px) {
+  .order-card-polished {
+    width: 100%;
+    max-width: 100%;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+
+  .order-card-polished .order-leading {
+    flex: 1 1 auto;
+    max-width: calc(100% - 112px);
+  }
+
+  .order-card-polished .order-leading strong {
+    max-width: 100%;
+  }
+
+  .order-card-polished .order-trailing {
+    flex: 0 0 auto;
+    max-width: 104px;
+  }
+
+  .order-card-polished .order-trailing > strong {
+    white-space: nowrap;
+  }
+
+  .order-card-polished .status-pill {
+    display: block;
+    max-width: 104px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@media (max-width: 390px) {
+  .order-card-polished {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .order-card-polished .order-leading {
+    max-width: 100%;
+  }
+
+  .order-card-polished .order-trailing {
+    width: 100%;
+    max-width: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .order-card-polished .status-pill {
+    max-width: 58%;
+  }
+}
