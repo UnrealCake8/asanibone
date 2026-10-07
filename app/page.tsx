@@ -24,10 +24,10 @@ export default async function HomePage() {
       <header className="desktop-header">
         <Link className="desktop-brand" href="/">
           <img className="brand-logo" src="/icon.svg" alt="Asanib" />
-          <span><strong>Asanib</strong><small>Buy. Deliver. Done.</small></span>
+          <span><strong>Asanib</strong><small>Courier & delivery</small></span>
         </Link>
         <nav className="desktop-links" aria-label="Desktop navigation">
-          <Link className="active" href="/">Home</Link><Link href="/order/new">Purchase & Delivery</Link><Link href="/orders">Orders</Link><Link href="/account">Account</Link>
+          <Link className="active" href="/">Home</Link><Link href="/order/new">Courier & Delivery</Link><Link href="/orders">Orders</Link><Link href="/account">Account</Link>
         </nav>
       </header>
 
@@ -40,22 +40,22 @@ export default async function HomePage() {
       </section>
 
       <Link className="asanib-commerce-hero" href="/order/new">
-        <div><p className="eyebrow">PURCHASE & DELIVERY</p><h1>Need it?<br/>We’ll get it.</h1><p>Tell us what you want and where to get it. Asanib handles the purchase, pickup and delivery.</p><strong>Start a request <ArrowRight size={18}/></strong></div>
+        <div><p className="eyebrow">COURIER & DELIVERY</p><h1>Picked up.<br/>Delivered.</h1><p>Send a courier to collect an item from a store or pickup location and deliver it to your door. Need us to buy it first? Add that to your request.</p><strong>Book a delivery <ArrowRight size={18}/></strong></div>
         <span className="asanib-hero-bag"><ShoppingBag size={42}/></span>
       </Link>
 
       <section className="asanib-service-section">
-        <div className="asanib-section-head"><div><h2>Purchase & delivery</h2><p>One simple request from store to your door</p></div></div>
+        <div className="asanib-section-head"><div><h2>What should we deliver?</h2><p>Courier pickup and delivery across supported areas</p></div></div>
         <div className="asanib-service-rail">
-          <Link href="/order/new"><span><ShoppingBag size={27}/></span><strong>Buy an item</strong></Link>
-          <Link href="/order/new"><span><Package size={27}/></span><strong>Pick it up</strong></Link>
-          <Link href="/order/new"><span><Truck size={27}/></span><strong>Deliver it</strong></Link>
+          <Link href="/order/new"><span><ShoppingBag size={27}/></span><strong>Buy & deliver</strong></Link>
+          <Link href="/order/new"><span><Package size={27}/></span><strong>Courier pickup</strong></Link>
+          <Link href="/order/new"><span><Truck size={27}/></span><strong>Door delivery</strong></Link>
         </div>
       </section>
 
       <section className="asanib-shortcuts">
-        <Link href="/order/new"><span><Package size={20}/></span><div><small>Need something?</small><strong>Purchase & deliver</strong></div><ArrowRight size={18}/></Link>
-        <Link href="/orders"><span><Clock3 size={20}/></span><div><small>Your purchases</small><strong>Track orders</strong></div><ArrowRight size={18}/></Link>
+        <Link href="/order/new"><span><Package size={20}/></span><div><small>Send a courier</small><strong>Book a delivery</strong></div><ArrowRight size={18}/></Link>
+        <Link href="/orders"><span><Clock3 size={20}/></span><div><small>Your deliveries</small><strong>Track orders</strong></div><ArrowRight size={18}/></Link>
       </section>
 
       {userId && recentOrders.length > 0 ? (
@@ -67,7 +67,7 @@ export default async function HomePage() {
 
       <nav className="bottom-nav mobile-only-nav asanib-bottom-nav" aria-label="Primary">
         <Link className="nav-active" href="/"><span>⌂</span>Home</Link>
-        <Link href="/order/new"><span>＋</span>Request</Link>
+        <Link href="/order/new"><span>＋</span>Delivery</Link>
         <Link href="/orders"><span>▤</span>Orders</Link>
         <Link href="/account"><span>♙</span>Profile</Link>
       </nav>
