@@ -98,6 +98,8 @@ export default async function HomePage() {
         <Link href="/orders"><span>▤</span>Orders</Link>
         <Link href="/account"><span>♙</span>Profile</Link>
       </nav>
+
+      <footer className="asanib-footer"><div><strong>Asanib</strong><span>Operated by JS Ventures LLC · UAE</span></div><nav aria-label="Legal"><Link href="/about">About</Link><Link href="/contact">Contact</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><Link href="/cookies">Cookies</Link><Link href="/refunds">Refunds</Link><Link href="/delivery">Delivery</Link><Link href="/providers">Providers</Link></nav></footer>
     </main>
   );
 }
