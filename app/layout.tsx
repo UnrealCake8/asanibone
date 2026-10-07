@@ -3,18 +3,18 @@ import "./globals.css";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 
 export const metadata: Metadata = {
-  title: "ASANIBONE",
-  description: "Get anything from almost any local shop delivered.",
+  title: "Asanib",
+  description: "Shop local, request pickups, and get deliveries with Asanib.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
-    title: "ASANIBONE",
+    title: "Asanib",
     statusBarStyle: "black-translucent",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0b0c",
+  themeColor: "#f4f4f1",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",

@@ -2,13 +2,13 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "ASANIBONE",
-    short_name: "ASANIBONE",
-    description: "Get almost anything from almost any local shop delivered.",
+    name: "Asanib",
+    short_name: "Asanib",
+    description: "Shop local, request pickups, and get deliveries with Asanib.",
     start_url: "/",
     display: "standalone",
-    background_color: "#0b0b0c",
-    theme_color: "#0b0b0c",
+    background_color: "#f4f4f1",
+    theme_color: "#f4f4f1",
     icons: [
       { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
       { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "maskable" },
