@@ -948,7 +948,7 @@ body {
   --line: #deded9;
   --text: #171719;
   --muted: #747477;
-  --accent: #dff229;
+  --accent: #ff5a1f;
   --ink: #171719;
 }
 html { background: var(--bg); }
@@ -957,7 +957,7 @@ body.super-app {
   background: var(--bg);
   color: var(--text);
 }
-.eyebrow { color:#667300; }
+.eyebrow { color:#b9360a; }
 .subtle, .form-error { color:var(--muted); }
 .icon-button { background:#fff; border-color:var(--line); color:var(--text); }
 .brand-logo { box-shadow:none; }
@@ -985,10 +985,10 @@ body.super-app {
 .location-strip {
   color:#171719;
   background:var(--accent);
-  border-color:#cbdc22;
+  border-color:#e94a12;
 }
 .location-icon { background:rgba(255,255,255,.6); color:#171719; }
-.location-strip small { color:#555b16; }
+.location-strip small { color:#7d2a0d; }
 .services-panel { background:#fff; color:#171719; }
 .service-grid > a { background:#f0f0ed; }
 .service-art {
@@ -1033,7 +1033,7 @@ body.super-app {
   border-radius:17px;
 }
 .secondary-button { background:#ededeb; color:#171719; border-color:#d8d8d4; }
-.notice-card, .form-success { background:#f4f7d8; border-color:#dfe79a; color:#525b13; }
+.notice-card, .form-success { background:#f4f7d8; border-color:#dfe79a; color:#7d2a0d; }
 .secure-note { color:#68686d; }
 
 .order-card {
@@ -1045,7 +1045,7 @@ body.super-app {
 .status-pill { border-color:#d3d3ce; background:#f2f2ef; color:#4e4e52 !important; }
 .empty-state { background:#f5f5f2; border-color:#d6d6d1; color:#171719; }
 .empty-state span { color:#747477; }
-.empty-icon, .large-empty-icon { background:#ecece8; color:#596400; }
+.empty-icon, .large-empty-icon { background:#ecece8; color:#b9360a; }
 .order-icon { background:#eeeeeb; }
 
 .auth-tabs { background:#ededeb; }
@@ -1056,7 +1056,7 @@ body.super-app {
 .danger-row { color:#b33434; }
 
 .payment-result-icon { background:#f0f0ed; color:#b33434; }
-.payment-result-icon.success { color:#596400; }
+.payment-result-icon.success { color:#b9360a; }
 
 .bottom-nav {
   background:#181819;
@@ -1171,7 +1171,7 @@ body.super-app {
 .asanib-primary-action {
   min-height: 86px;
   background: var(--accent);
-  border: 1px solid #cbdc22;
+  border: 1px solid #e94a12;
 }
 .asanib-primary-action > span,
 .asanib-location-card > span:nth-child(2) {
@@ -1180,7 +1180,7 @@ body.super-app {
   flex-direction: column;
   gap: 3px;
 }
-.asanib-primary-action small { color: #5b611c; }
+.asanib-primary-action small { color: #7d2a0d; }
 .asanib-primary-action strong { font-size: 1.12rem; letter-spacing: -.02em; }
 .asanib-location-card {
   min-height: 82px;
@@ -1239,19 +1239,19 @@ body.super-app {
 .asanib-commerce-hero {
   min-height: 235px; display:grid; grid-template-columns:1fr auto; align-items:end; gap:12px;
   overflow:hidden; padding:24px 20px; border-radius:28px; color:#fff;
-  background:linear-gradient(145deg,#071c17 0%,#003c31 58%,#006451 100%);
+  background:linear-gradient(145deg,#071c17 0%,#3b1307 58%,#ff5a1f 100%);
 }
 .asanib-commerce-hero h1 { margin:7px 0 8px; font-size:3rem; line-height:.91; letter-spacing:-.065em; }
-.asanib-commerce-hero p:not(.eyebrow) { max-width:27ch; margin:0 0 17px; color:#d0dfdb; font-size:.9rem; line-height:1.45; }
-.asanib-commerce-hero .eyebrow { color:#dff229; }
+.asanib-commerce-hero p:not(.eyebrow) { max-width:27ch; margin:0 0 17px; color:#f0d6cd; font-size:.9rem; line-height:1.45; }
+.asanib-commerce-hero .eyebrow { color:#ff5a1f; }
 .asanib-commerce-hero strong { display:flex; align-items:center; gap:6px; }
-.asanib-hero-bag { width:82px; height:82px; display:grid; place-items:center; border-radius:25px; background:#dff229; color:#171719; transform:rotate(5deg); }
+.asanib-hero-bag { width:82px; height:82px; display:grid; place-items:center; border-radius:25px; background:#ff5a1f; color:#171719; transform:rotate(5deg); }
 .asanib-service-section,.asanib-products-section { margin-top:18px; }
 .asanib-section-head { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:11px; }
 .asanib-section-head h2,.asanib-section-head p { margin:0; }
 .asanib-section-head h2 { font-size:1.25rem; letter-spacing:-.03em; }
 .asanib-section-head p { margin-top:2px; color:var(--muted); font-size:.8rem; }
-.asanib-section-head > a { color:#596400; font-size:.82rem; font-weight:800; }
+.asanib-section-head > a { color:#b9360a; font-size:.82rem; font-weight:800; }
 .asanib-service-rail { display:grid; grid-auto-flow:column; grid-auto-columns:104px; gap:9px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
 .asanib-service-rail::-webkit-scrollbar { display:none; }
 .asanib-service-rail > a { min-height:118px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; padding:10px 6px; border-radius:20px; background:#fff; text-align:center; }
@@ -1273,8 +1273,8 @@ body.super-app {
 .asanib-shortcuts div { min-width:0; display:flex; flex-direction:column; gap:2px; }
 .asanib-shortcuts small { color:var(--muted); font-size:.68rem; }
 .asanib-shortcuts strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.78rem; }
-.asanib-superapp .asanib-bottom-nav { width:100%; bottom:0; min-height:76px; border:0; border-radius:0; padding:8px 10px max(8px,env(safe-area-inset-bottom)); background:#073c33; }
-.asanib-superapp .asanib-bottom-nav a { color:#a9c4be; }
+.asanib-superapp .asanib-bottom-nav { width:100%; bottom:0; min-height:76px; border:0; border-radius:0; padding:8px 10px max(8px,env(safe-area-inset-bottom)); background:#171719; }
+.asanib-superapp .asanib-bottom-nav a { color:#b8b8bc; }
 .asanib-superapp .asanib-bottom-nav .nav-active { background:transparent; color:#fff; }
 @media(max-width:380px){.asanib-commerce-hero{min-height:210px}.asanib-commerce-hero h1{font-size:2.55rem}.asanib-hero-bag{width:68px;height:68px}.asanib-shortcuts{grid-template-columns:1fr}}
 @media(min-width:900px){
