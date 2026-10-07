@@ -1232,3 +1232,57 @@ body.super-app {
   .asanib-location-card { grid-row: 3; }
   .asanib-activity { grid-row: 4; }
 }
+
+
+/* Careem-inspired density, Asanib purchase-first flow */
+.asanib-superapp { padding-bottom: calc(104px + env(safe-area-inset-bottom)); }
+.asanib-commerce-hero {
+  min-height: 235px; display:grid; grid-template-columns:1fr auto; align-items:end; gap:12px;
+  overflow:hidden; padding:24px 20px; border-radius:28px; color:#fff;
+  background:linear-gradient(145deg,#071c17 0%,#003c31 58%,#006451 100%);
+}
+.asanib-commerce-hero h1 { margin:7px 0 8px; font-size:3rem; line-height:.91; letter-spacing:-.065em; }
+.asanib-commerce-hero p:not(.eyebrow) { max-width:27ch; margin:0 0 17px; color:#d0dfdb; font-size:.9rem; line-height:1.45; }
+.asanib-commerce-hero .eyebrow { color:#dff229; }
+.asanib-commerce-hero strong { display:flex; align-items:center; gap:6px; }
+.asanib-hero-bag { width:82px; height:82px; display:grid; place-items:center; border-radius:25px; background:#dff229; color:#171719; transform:rotate(5deg); }
+.asanib-service-section,.asanib-products-section { margin-top:18px; }
+.asanib-section-head { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:11px; }
+.asanib-section-head h2,.asanib-section-head p { margin:0; }
+.asanib-section-head h2 { font-size:1.25rem; letter-spacing:-.03em; }
+.asanib-section-head p { margin-top:2px; color:var(--muted); font-size:.8rem; }
+.asanib-section-head > a { color:#596400; font-size:.82rem; font-weight:800; }
+.asanib-service-rail { display:grid; grid-auto-flow:column; grid-auto-columns:104px; gap:9px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none; }
+.asanib-service-rail::-webkit-scrollbar { display:none; }
+.asanib-service-rail > a { min-height:118px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:9px; padding:10px 6px; border-radius:20px; background:#fff; text-align:center; }
+.asanib-service-rail > a > span { width:62px; height:62px; display:grid; place-items:center; overflow:hidden; border-radius:18px; background:#f0f0ed; }
+.asanib-service-rail img { width:100%; height:100%; object-fit:cover; }
+.asanib-service-rail strong { width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.82rem; }
+.asanib-home-products { display:grid; grid-auto-flow:column; grid-auto-columns:154px; gap:10px; overflow-x:auto; padding-bottom:5px; scrollbar-width:none; }
+.asanib-home-products::-webkit-scrollbar { display:none; }
+.asanib-home-product { min-width:0; padding:9px; border:1px solid var(--line); border-radius:20px; background:#fff; }
+.asanib-home-product > div { aspect-ratio:1; display:grid; place-items:center; overflow:hidden; margin-bottom:9px; border-radius:15px; background:#f0f0ed; }
+.asanib-home-product img { width:100%; height:100%; object-fit:cover; }
+.asanib-home-product small,.asanib-home-product strong,.asanib-home-product b { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.asanib-home-product small { color:var(--muted); font-size:.7rem; }
+.asanib-home-product strong { margin:2px 0 8px; font-size:.88rem; }
+.asanib-home-product b { font-size:.88rem; }
+.asanib-shortcuts { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:18px; }
+.asanib-shortcuts > a { min-width:0; min-height:78px; display:grid; grid-template-columns:36px minmax(0,1fr) auto; align-items:center; gap:8px; padding:11px; border:1px solid var(--line); border-radius:19px; background:#fff; }
+.asanib-shortcuts > a > span { width:36px; height:36px; display:grid; place-items:center; border-radius:12px; background:#f0f0ed; }
+.asanib-shortcuts div { min-width:0; display:flex; flex-direction:column; gap:2px; }
+.asanib-shortcuts small { color:var(--muted); font-size:.68rem; }
+.asanib-shortcuts strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.78rem; }
+.asanib-superapp .asanib-bottom-nav { width:100%; bottom:0; min-height:76px; border:0; border-radius:0; padding:8px 10px max(8px,env(safe-area-inset-bottom)); background:#073c33; }
+.asanib-superapp .asanib-bottom-nav a { color:#a9c4be; }
+.asanib-superapp .asanib-bottom-nav .nav-active { background:transparent; color:#fff; }
+@media(max-width:380px){.asanib-commerce-hero{min-height:210px}.asanib-commerce-hero h1{font-size:2.55rem}.asanib-hero-bag{width:68px;height:68px}.asanib-shortcuts{grid-template-columns:1fr}}
+@media(min-width:900px){
+  .asanib-superapp { display:block; }
+  .asanib-superapp .desktop-header { display:flex; }
+  .asanib-commerce-hero { min-height:360px; padding:38px; }
+  .asanib-commerce-hero h1 { font-size:5rem; }
+  .asanib-service-rail { grid-auto-columns:140px; }
+  .asanib-home-products { grid-auto-flow:initial; grid-template-columns:repeat(4,1fr); overflow:visible; }
+  .asanib-shortcuts { max-width:720px; }
+}
