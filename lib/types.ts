@@ -1,3 +1,5 @@
+import type { DeliverySpeed, Emirate } from "@/lib/delivery-pricing";
+
 export type OrderStatus =
   | "draft"
   | "awaiting_payment"
@@ -30,4 +32,8 @@ export type OrderDraft = {
   deliveryAddress: string;
   deliveryNotes?: string;
   phone: string;
+  pickupEmirate?: Emirate;
+  deliveryEmirate?: Emirate;
+  deliverySpeed?: DeliverySpeed;
+  orderType?: "purchase" | "pickup";
 };
