@@ -48,12 +48,13 @@ function NewOrderForm() {
         buffer: 0,
         deliveryAddress,
         phone,
+        orderType: "pickup",
       });
-      router.push("/order/review");
+      router.push("/order/delivery");
       return;
     }
 
-    saveOrderDraft({ itemDescription, productUrl, storeName, storeLocation, estimate, buffer });
+    saveOrderDraft({ itemDescription, productUrl, storeName, storeLocation, estimate, buffer, orderType: "purchase" });
     router.push("/order/delivery");
   }
 
