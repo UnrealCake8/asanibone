@@ -108,8 +108,8 @@ export default function NewOrderPage() {
         </section>
 
         <aside className="request-summary-card">
-          <div><span>{isPickup ? "Pickup and delivery" : "Item allowance"}</span><strong>AED {quote.itemAllowance.toFixed(2)}</strong></div>
-          <div><span>Delivery</span><strong>AED {quote.deliveryFee.toFixed(2)}</strong></div>
+          {!isPickup ? <div><span>Item allowance</span><strong>AED {quote.itemAllowance.toFixed(2)}</strong></div> : null}
+          <div><span>{isPickup ? "Pickup and delivery" : "Delivery"}</span><strong>AED {quote.deliveryFee.toFixed(2)}</strong></div>
           <div><span>Service fee</span><strong>AED {quote.serviceFee.toFixed(2)}</strong></div>
           <div><span>Payment fee</span><strong>AED {quote.paymentFee.toFixed(2)}</strong></div>
           <div className="summary-total"><span>Estimated maximum</span><strong>AED {quote.total.toFixed(2)}</strong></div>
