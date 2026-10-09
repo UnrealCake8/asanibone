@@ -1,21 +1,31 @@
-export const DEFAULT_DELIVERY_FEE = 20;
-export const DEFAULT_SERVICE_FEE = 10;
-export const ZIINA_PERCENT = 0.026;
-export const ZIINA_FIXED_AED = 1;
+import { getDeliveryFee, type DeliverySpeed, type Emirate } from "@/lib/delivery-pricing";
 
-export function calculatePaymentFee(desiredNet: number) {
-  if (desiredNet <= 0) return 0;
-  return Math.ceil(((desiredNet + ZIINA_FIXED_AED) / (1 - ZIINA_PERCENT) - desiredNet) * 100) / 100;
-}
+export const SHOPPING_SERVICE_PERCENT = 0.06;
+export const MIN_SHOPPING_SERVICE_FEE = 15;
 
-export function calculateQuote(itemAllowance: number, deliveryFee = DEFAULT_DELIVERY_FEE, serviceFee = DEFAULT_SERVICE_FEE) {
-  const desiredNet = itemAllowance + deliveryFee + serviceFee;
-  const paymentFee = calculatePaymentFee(desiredNet);
+export function calculateQuote({
+  itemAllowance,
+  pickupEmirate,
+  deliveryEmirate,
+  deliverySpeed,
+  orderType,
+}: {
+  itemAllowance: number;
+  pickupEmirate: Emirate;
+  deliveryEmirate: Emirate;
+  deliverySpeed: DeliverySpeed;
+  orderType: "purchase" | "pickup";
+}) {
+  const deliveryFee = getDeliveryFee(pickupEmirate, deliveryEmirate, deliverySpeed);
+  const serviceFee = orderType === "purchase"
+    ? Math.max(MIN_SHOPPING_SERVICE_FEE, Math.ceil(itemAllowance * SHOPPING_SERVICE_PERCENT * 100) / 100)
+    : 0;
+
   return {
     itemAllowance,
     deliveryFee,
     serviceFee,
-    paymentFee,
-    total: desiredNet + paymentFee,
+    paymentFee: 0,
+    total: Math.round((itemAllowance + deliveryFee + serviceFee) * 100) / 100,
   };
 }
