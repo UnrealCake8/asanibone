@@ -70,7 +70,7 @@ export default function LoginPage() {
     <main className="app-shell auth-shell">
       <section className="topbar compact auth-topbar">
         <Link className="icon-button" href="/" aria-label="Back"><ArrowLeft size={20} /></Link>
-        <div><p className="eyebrow">ASANIBONE</p><h1>{mode === "signin" ? "Welcome back" : "Create account"}</h1></div>
+        <div><p className="eyebrow">ASANIB</p><h1>{mode === "signin" ? "Welcome back" : "Create account"}</h1></div>
       </section>
 
       <section className="auth-card">
