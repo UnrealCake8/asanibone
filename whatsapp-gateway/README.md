@@ -12,7 +12,7 @@ npm install
 npm run start
 ```
 
-Open `http://localhost:3001/session` with an authenticated request to retrieve the pairing QR data URL. Scan it from WhatsApp: **Linked devices → Link a device**.
+Use the authenticated `POST /pairing-code` endpoint with the WhatsApp number in international format, then enter the returned code in WhatsApp: **Linked devices → Link a device → Link with phone number instead**. `GET /session` remains available if you prefer a QR data URL.
 
 The authentication session is stored in `BAILEYS_AUTH_DIR` (default: `./auth`). Keep that folder private and backed up; deleting it requires pairing again.
 
@@ -26,6 +26,7 @@ Authorization: Bearer <WHATSAPP_GATEWAY_TOKEN>
 
 - `GET /health`: connection state.
 - `GET /session`: connection state and a QR data URL while pairing is required.
+- `POST /pairing-code`: create a one-time code for the WhatsApp account.
 - `POST /messages`: send a customer update.
 
 ```json
