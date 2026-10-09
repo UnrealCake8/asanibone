@@ -1,13 +1,13 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, Suspense, useEffect, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, Link2, MapPin, Phone, Store } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { calculateQuote } from "@/lib/pricing";
 import { readOrderDraft, saveOrderDraft } from "@/lib/order-draft";
 
-export default function NewOrderPage() {
+function NewOrderForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const mode = searchParams.get("mode") === "pickup" ? "pickup" : "purchase";
@@ -117,5 +117,13 @@ export default function NewOrderPage() {
         </aside>
       </form>
     </main>
+  );
+}
+
+export default function NewOrderPage() {
+  return (
+    <Suspense fallback={<main className="app-shell request-shell" />}>
+      <NewOrderForm />
+    </Suspense>
   );
 }
