@@ -85,7 +85,7 @@ export default function DeliveryPage() {
             <legend>Choose delivery speed</legend>
             {!sameDayOpen ? <p className="cutoff-note"><Clock3 size={16} /> Same-day orders close at 9:00 PM. Next-day delivery is available.</p> : null}
             <div className="delivery-speed-list">
-              {options.map((option) => (
+              {options.length === 0 ? <p className="form-error">Regular same-day slots are closed. Please contact us for an after-hours delivery.</p> : null}\n              {options.map((option) => (
                 <label className={deliverySpeed === option.speed ? "delivery-speed-option selected" : "delivery-speed-option"} key={option.speed}>
                   <input type="radio" name="delivery-speed" value={option.speed} checked={deliverySpeed === option.speed} onChange={() => setDeliverySpeed(option.speed)} />
                   <span><strong>{option.label}</strong><small>{option.timeframe}</small></span>
@@ -117,7 +117,7 @@ export default function DeliveryPage() {
           <p className="eyebrow">NEXT</p>
           <h2>Review and pay</h2>
           <p>Check your request and the maximum amount before continuing to secure payment.</p>
-          <button className="primary-button" type="submit">Review <ArrowRight size={18} /></button>
+          <button className="primary-button" type="submit" disabled={options.length === 0}>Review <ArrowRight size={18} /></button>
         </aside>
       </form>
     </main>
