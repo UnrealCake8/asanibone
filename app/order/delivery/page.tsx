@@ -37,11 +37,9 @@ export default function DeliveryPage() {
     });
   }, []);
 
-  useEffect(() => {
-    if (!options.some((option) => option.speed === deliverySpeed)) {
-      setDeliverySpeed(options[0]?.speed || "next_day");
-    }
-  }, [deliverySpeed, options]);
+  const selectedDeliverySpeed = options.some((option) => option.speed === deliverySpeed)
+    ? deliverySpeed
+    : (options[0]?.speed || "next_day");
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -51,7 +49,7 @@ export default function DeliveryPage() {
       phone,
       pickupEmirate,
       deliveryEmirate,
-      deliverySpeed,
+      deliverySpeed: selectedDeliverySpeed,
       orderType,
     });
     router.push("/order/review");
@@ -85,9 +83,10 @@ export default function DeliveryPage() {
             <legend>Choose delivery speed</legend>
             {!sameDayOpen ? <p className="cutoff-note"><Clock3 size={16} /> Same-day orders close at 9:00 PM. Next-day delivery is available.</p> : null}
             <div className="delivery-speed-list">
-              {options.length === 0 ? <p className="form-error">Regular same-day slots are closed. Please contact us for an after-hours delivery.</p> : null}\n              {options.map((option) => (
-                <label className={deliverySpeed === option.speed ? "delivery-speed-option selected" : "delivery-speed-option"} key={option.speed}>
-                  <input type="radio" name="delivery-speed" value={option.speed} checked={deliverySpeed === option.speed} onChange={() => setDeliverySpeed(option.speed)} />
+              {options.length === 0 ? <p className="form-error">Regular same-day slots are closed. Please contact us for an after-hours delivery.</p> : null}
+              {options.map((option) => (
+                <label className={selectedDeliverySpeed === option.speed ? "delivery-speed-option selected" : "delivery-speed-option"} key={option.speed}>
+                  <input type="radio" name="delivery-speed" value={option.speed} checked={selectedDeliverySpeed === option.speed} onChange={() => setDeliverySpeed(option.speed)} />
                   <span><strong>{option.label}</strong><small>{option.timeframe}</small></span>
                   <b>AED {option.deliveryFee}</b>
                 </label>
