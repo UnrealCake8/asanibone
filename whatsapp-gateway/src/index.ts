@@ -11,6 +11,7 @@ import makeWASocket, {
   type WASocket,
 } from "@whiskeysockets/baileys";
 import QRCode from "qrcode";
+import terminalQr from "qrcode-terminal";
 
 const port = Number(process.env.PORT || 3001);
 const gatewayToken = requireEnv("WHATSAPP_GATEWAY_TOKEN");
@@ -115,7 +116,11 @@ async function connect(): Promise<void> {
     for (const message of messages) void forwardInboundMessage(message);
   });
   nextSocket.ev.on("connection.update", ({ connection, lastDisconnect, qr }) => {
-    if (qr) latestQr = qr;
+    if (qr) {
+      latestQr = qr;
+      terminalQr.generate(qr, { small: true });
+      app.log.info("Scan the QR code above in WhatsApp: Linked devices → Link a device");
+    }
     if (connection === "open") {
       connectionState = "open";
       latestQr = null;
