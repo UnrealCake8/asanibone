@@ -1,4 +1,4 @@
-import { ArrowRight, Clock3, Package, ShoppingBag, Truck, UserRound } from "lucide-react";
+import { ArrowRight, Clock3, Package, ShoppingBag, UserRound } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 
@@ -24,7 +24,7 @@ export default async function HomePage() {
       <header className="desktop-header">
         <Link className="desktop-brand" href="/">
           <img className="brand-logo" src="/icon.svg" alt="Asanib" />
-          <span><strong>Asanib</strong><small>Courier & delivery</small></span>
+          <span><strong>Asanib</strong><small>Pickup & delivery</small></span>
         </Link>
         <nav className="desktop-links" aria-label="Desktop navigation">
           <Link className="active" href="/">Home</Link><Link href="/order/new">Courier & Delivery</Link><Link href="/orders">Orders</Link><Link href="/account">Account</Link>
@@ -40,16 +40,15 @@ export default async function HomePage() {
       </section>
 
       <Link className="asanib-commerce-hero" href="/order/new">
-        <div><p className="eyebrow">COURIER & DELIVERY</p><h1>Picked up.<br/>Delivered.</h1><p>Send a courier to collect an item from a store or pickup location and deliver it to your door. Need us to buy it first? Add that to your request.</p><strong>Book a delivery <ArrowRight size={18}/></strong></div>
+        <div><p className="eyebrow">COURIER & DELIVERY</p><h1>Need something collected and delivered?</h1><p>Tell us what to collect, where to pick it up and where it needs to go. If you need an item purchased first, include that in your request.</p><strong>Book a delivery <ArrowRight size={18}/></strong></div>
         <span className="asanib-hero-bag"><ShoppingBag size={42}/></span>
       </Link>
 
       <section className="asanib-service-section">
-        <div className="asanib-section-head"><div><h2>What should we deliver?</h2><p>Courier pickup and delivery across supported areas</p></div></div>
-        <div className="asanib-service-rail">
-          <Link href="/order/new"><span><ShoppingBag size={27}/></span><strong>Buy & deliver</strong></Link>
-          <Link href="/order/new"><span><Package size={27}/></span><strong>Courier pickup</strong></Link>
-          <Link href="/order/new"><span><Truck size={27}/></span><strong>Door delivery</strong></Link>
+        <div className="asanib-section-head"><div><h2>Choose how to start</h2><p>Collection and delivery depend on location and availability</p></div></div>
+        <div className="asanib-service-rail asanib-service-list">
+          <Link href="/order/new"><strong>Collect and deliver an item</strong><ArrowRight size={18}/></Link>
+          <Link href="/order/new"><strong>Buy an item, then deliver it</strong><ArrowRight size={18}/></Link>
         </div>
       </section>
 
