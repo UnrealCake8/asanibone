@@ -1324,3 +1324,42 @@ body.super-app {
 .quick-request-form{gap:16px}
 @media(min-width:900px){.request-first-home{width:min(100% - 48px,860px);padding-bottom:60px}.request-first-home .desktop-header{margin-bottom:54px}.request-launcher{padding:58px}.request-first-home .asanib-footer{margin-top:54px}}
 @media(max-width:520px){.request-launcher{margin:0 -2px;padding:28px 20px;border-radius:26px}.request-launcher h1{font-size:3.4rem}.request-launcher-lede{font-size:.92rem}.request-box{border-radius:18px}.request-box-footer{align-items:flex-end}.request-box-footer>span{max-width:24ch}.request-examples{display:grid;grid-template-columns:1fr 1fr}.request-examples button{justify-content:center;padding:0 10px;font-size:.78rem}}
+
+/* Delivery options and after-hours coordination */
+.form-card select {
+  width: 100%;
+  min-height: 54px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: var(--panel-2);
+  color: var(--text);
+  padding: 0 12px;
+}
+.delivery-speed-picker { display: grid; gap: 10px; margin: 0; padding: 0; border: 0; }
+.delivery-speed-picker legend { color: #ceced4; font-size: .88rem; font-weight: 700; }
+.delivery-speed-list { display: grid; gap: 8px; }
+.delivery-speed-option {
+  display: grid !important;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 68px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: var(--panel-2);
+  cursor: pointer;
+}
+.delivery-speed-option.selected { border-color: var(--accent); background: rgba(243,255,74,.08); }
+.delivery-speed-option input { accent-color: var(--accent); }
+.delivery-speed-option > span { display: grid; gap: 2px; }
+.delivery-speed-option small { color: var(--muted); font-weight: 500; }
+.delivery-speed-option b { font-size: .92rem; color: var(--text); }
+.cutoff-note { display: flex; align-items: flex-start; gap: 8px; margin: 0; color: #d9dbb3; font-size: .82rem; line-height: 1.4; }
+.after-hours-card { display: flex; align-items: flex-start; gap: 12px; padding: 15px; border: 1px solid rgba(255,90,31,.35); border-radius: 18px; background: rgba(255,90,31,.07); color: #ffb19a; }
+.after-hours-card > div { display: grid; gap: 5px; }
+.after-hours-card p { margin: 0; color: var(--muted); font-size: .82rem; line-height: 1.45; }
+.after-hours-card span { display: flex; flex-wrap: wrap; gap: 10px 14px; }
+.after-hours-card a { display: inline-flex; align-items: center; gap: 5px; color: var(--text); font-size: .8rem; font-weight: 800; }
+.quote-explainer { margin: 2px 0 0; color: var(--muted); font-size: .78rem; line-height: 1.45; }
+.asanib-footer a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
