@@ -40,7 +40,7 @@ export default function OrdersPage() {
 
         const results = await Promise.all(
           awaiting.map((order) =>
-            fetch("/api/payments/ziina/sync", {
+            fetch("/api/payments/ngenius/sync", {
               method: "POST",
               headers: { "content-type": "application/json" },
               body: JSON.stringify({ orderId: order.id }),
