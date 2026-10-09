@@ -53,11 +53,13 @@ export function getDeliveryOptions(
   deliveryEmirate: Emirate,
   now = new Date()
 ): DeliveryOption[] {
-  const base = pickupEmirate === deliveryEmirate
+  const sameCity = pickupEmirate === deliveryEmirate;
+  const base = sameCity
     ? { urgent: 99, same_day: 99, next_day: 99, two_day: 99 }
     : DESTINATION_FEES[deliveryEmirate];
+  const speeds = sameCity ? (["same_day"] as DeliverySpeed[]) : DELIVERY_SPEEDS;
 
-  return DELIVERY_SPEEDS
+  return speeds
     .filter((speed) => isSameDayAvailable(now) || (speed !== "urgent" && speed !== "same_day"))
     .map((speed) => ({
       speed,
