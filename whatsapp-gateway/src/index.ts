@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import path from "node:path";
 import Fastify from "fastify";
