@@ -1,5 +1,6 @@
-import { ArrowRight, Clock3, Package, ShoppingBag, UserRound } from "lucide-react";
+import { Clock3, UserRound } from "lucide-react";
 import Link from "next/link";
+import { RequestLauncher } from "@/components/request-launcher";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function HomePage() {
@@ -20,14 +21,14 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="app-shell desktop-app-shell asanib-home asanib-superapp">
+    <main className="app-shell desktop-app-shell asanib-home asanib-superapp request-first-home">
       <header className="desktop-header">
         <Link className="desktop-brand" href="/">
           <img className="brand-logo" src="/icon.svg" alt="Asanib" />
-          <span><strong>Asanib</strong><small>Pickup & delivery</small></span>
+          <span><strong>Asanib</strong><small>Pickup &amp; delivery</small></span>
         </Link>
         <nav className="desktop-links" aria-label="Desktop navigation">
-          <Link className="active" href="/">Home</Link><Link href="/order/new">Courier & Delivery</Link><Link href="/orders">Orders</Link><Link href="/account">Account</Link>
+          <Link className="active" href="/">Home</Link><Link href="/orders">Orders</Link><Link href="/account">Account</Link>
         </nav>
       </header>
 
@@ -39,22 +40,10 @@ export default async function HomePage() {
         <Link className="asanib-account-chip" href="/account" aria-label="Open account"><UserRound size={20} /></Link>
       </section>
 
-      <Link className="asanib-commerce-hero" href="/order/new">
-        <div><p className="eyebrow">COURIER & DELIVERY</p><h1>Need something collected and delivered?</h1><p>Tell us what to collect, where to pick it up and where it needs to go. If you need an item purchased first, include that in your request.</p><strong>Book a delivery <ArrowRight size={18}/></strong></div>
-        <span className="asanib-hero-bag"><ShoppingBag size={42}/></span>
-      </Link>
+      <RequestLauncher />
 
-      <section className="asanib-service-section">
-        <div className="asanib-section-head"><div><h2>Choose how to start</h2><p>Collection and delivery depend on location and availability</p></div></div>
-        <div className="asanib-service-rail asanib-service-list">
-          <Link href="/order/new"><strong>Collect and deliver an item</strong><ArrowRight size={18}/></Link>
-          <Link href="/order/new"><strong>Buy an item, then deliver it</strong><ArrowRight size={18}/></Link>
-        </div>
-      </section>
-
-      <section className="asanib-shortcuts">
-        <Link href="/order/new"><span><Package size={20}/></span><div><small>Send a courier</small><strong>Book a delivery</strong></div><ArrowRight size={18}/></Link>
-        <Link href="/orders"><span><Clock3 size={20}/></span><div><small>Your deliveries</small><strong>Track orders</strong></div><ArrowRight size={18}/></Link>
+      <section className="request-first-note" aria-label="How it works">
+        <span>1</span><p>Describe the job. We will ask only for the details needed to get it done.</p>
       </section>
 
       {userId && recentOrders.length > 0 ? (
@@ -63,6 +52,8 @@ export default async function HomePage() {
           <div className="order-list">{recentOrders.map((order) => <article className="order-card" key={order.id}><div><strong>{order.item_description}</strong><span>{order.store_name} · {order.status.replaceAll("_", " ")}</span></div><span className="status-pill">AED {Number(order.quoted_total).toFixed(2)}</span></article>)}</div>
         </section>
       ) : null}
+
+      {!userId ? <Link className="orders-link" href="/orders"><Clock3 size={18} />Track an existing delivery</Link> : null}
 
       <nav className="bottom-nav mobile-only-nav asanib-bottom-nav" aria-label="Primary">
         <Link className="nav-active" href="/"><span>⌂</span>Home</Link>
