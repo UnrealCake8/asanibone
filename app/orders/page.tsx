@@ -70,7 +70,7 @@ export default function OrdersPage() {
       <header className="desktop-header">
         <Link className="desktop-brand" href="/">
           <img className="brand-logo" src="/icon.svg" alt="Asanib" />
-          <span><strong>ASANIBONE</strong><small>Local pickup, delivered</small></span>
+          <span><strong>Asanib</strong><small>Pickup &amp; delivery</small></span>
         </Link>
         <nav className="desktop-links" aria-label="Desktop navigation">
           <Link href="/">Home</Link>
