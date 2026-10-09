@@ -3,8 +3,8 @@ import "./globals.css";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 
 export const metadata: Metadata = {
-  title: "Asanib",
-  description: "Shop local, request pickups, and get deliveries with Asanib.",
+  title: "Asanib | Pickup & delivery",
+  description: "Request item pickup and delivery. Tell Asanib where to collect it and where it needs to go.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
