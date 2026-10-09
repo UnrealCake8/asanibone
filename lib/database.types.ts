@@ -163,6 +163,7 @@ export type Database = {
           store_name: string
           updated_at: string
           user_id: string
+          ngenius_order_reference: string | null
           ziina_payment_intent_id: string | null
         }
         Insert: {
@@ -189,6 +190,7 @@ export type Database = {
           store_name: string
           updated_at?: string
           user_id: string
+          ngenius_order_reference?: string | null
           ziina_payment_intent_id?: string | null
         }
         Update: {
@@ -215,6 +217,7 @@ export type Database = {
           store_name?: string
           updated_at?: string
           user_id?: string
+          ngenius_order_reference?: string | null
           ziina_payment_intent_id?: string | null
         }
         Relationships: []
@@ -277,6 +280,7 @@ export type Database = {
           store_name: string
           updated_at: string
           user_id: string
+          ngenius_order_reference: string | null
           ziina_payment_intent_id: string | null
         }[]
         SetofOptions: {
@@ -316,6 +320,7 @@ export type Database = {
           store_name: string
           updated_at: string
           user_id: string
+          ngenius_order_reference: string | null
           ziina_payment_intent_id: string | null
         }
         SetofOptions: {
@@ -361,6 +366,7 @@ export type Database = {
           store_name: string
           updated_at: string
           user_id: string
+          ngenius_order_reference: string | null
           ziina_payment_intent_id: string | null
         }
         SetofOptions: {

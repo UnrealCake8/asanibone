@@ -21,17 +21,24 @@ export default function ReviewPage() {
     fetch("/api/quote", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ estimate: current.estimate, buffer: current.buffer }),
+      body: JSON.stringify({
+        estimate: current.estimate,
+        buffer: current.buffer,
+        pickupEmirate: current.pickupEmirate,
+        deliveryEmirate: current.deliveryEmirate,
+        deliverySpeed: current.deliverySpeed,
+        orderType: current.orderType,
+      }),
     })
       .then(async (res) => {
-        if (!res.ok) throw new Error("Could not calculate quote.");
+        if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Could not calculate quote.");
         return res.json();
       })
       .then(setQuote)
-      .catch((e) => setError(e.message));
+      .catch((reason) => setError(reason.message));
   }, []);
 
-  async function payWithZiina() {
+  async function continueToPayment() {
     setSubmitting(true);
     setError("");
 
@@ -53,19 +60,17 @@ export default function ReviewPage() {
       return;
     }
 
-    const orderBody = await orderResponse.json();
-
-    const paymentResponse = await fetch("/api/payments/ziina/create", {
+    const { order } = await orderResponse.json();
+    const paymentResponse = await fetch("/api/payments/ngenius/create", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ orderId: orderBody.order.id }),
+      body: JSON.stringify({ orderId: order.id }),
     });
 
     if (!paymentResponse.ok) {
       const body = await paymentResponse.json().catch(() => ({}));
-      setError(body.error || "Could not start payment.");
+      setError(body.error || "Could not start secure checkout.");
       setSubmitting(false);
-      router.push("/orders");
       return;
     }
 
@@ -73,6 +78,8 @@ export default function ReviewPage() {
     clearOrderDraft();
     window.location.assign(payment.redirectUrl);
   }
+
+  const deliveryLabel = draft.deliverySpeed?.replaceAll("_", "-") || "Not selected";
 
   return (
     <main className="app-shell request-shell">
@@ -85,7 +92,7 @@ export default function ReviewPage() {
         <section className="form-card review-details request-main-card">
           <div><span>Item</span><strong>{draft.itemDescription || "Not provided"}</strong></div>
           <div><span>Store</span><strong>{draft.storeName || "Not provided"}</strong></div>
-          <div><span>Branch</span><strong>{draft.storeLocation || "Not provided"}</strong></div>
+          <div><span>Delivery</span><strong>{deliveryLabel} · {draft.pickupEmirate || "—"} to {draft.deliveryEmirate || "—"}</strong></div>
           <div><span>Deliver to</span><strong>{draft.deliveryAddress || "Not provided"}</strong></div>
         </section>
 
@@ -94,19 +101,19 @@ export default function ReviewPage() {
           {error ? <p className="form-error">{error}</p> : null}
           {quote ? (
             <>
-              <div><span>Item allowance</span><strong>AED {quote.itemAllowance.toFixed(2)}</strong></div>
+              {quote.itemAllowance > 0 ? <div><span>Item allowance</span><strong>AED {quote.itemAllowance.toFixed(2)}</strong></div> : null}
               <div><span>Delivery</span><strong>AED {quote.deliveryFee.toFixed(2)}</strong></div>
-              <div><span>Service fee</span><strong>AED {quote.serviceFee.toFixed(2)}</strong></div>
-              <div><span>Payment fee</span><strong>AED {quote.paymentFee.toFixed(2)}</strong></div>
-              <div className="summary-total"><span>Total</span><strong>AED {quote.total.toFixed(2)}</strong></div>
+              {quote.serviceFee > 0 ? <div><span>Shopping service</span><strong>AED {quote.serviceFee.toFixed(2)}</strong></div> : null}
+              <div className="summary-total"><span>Maximum today</span><strong>AED {quote.total.toFixed(2)}</strong></div>
+              {quote.itemAllowance > 0 ? <p className="quote-explainer">Your item allowance covers the estimated item price. We will confirm any adjustment with you.</p> : null}
             </>
           ) : null}
 
-          <div className="secure-note"><ShieldCheck size={17} /><span>Secure checkout powered by Ziina</span></div>
+          <div className="secure-note"><ShieldCheck size={17} /><span>Secure checkout powered by Network International</span></div>
 
-          <button className="primary-button" type="button" onClick={payWithZiina} disabled={!quote || submitting}>
+          <button className="primary-button" type="button" onClick={continueToPayment} disabled={!quote || submitting}>
             {submitting ? <LoaderCircle className="spin" size={18} /> : <CreditCard size={18} />}
-            {submitting ? "Opening Ziina…" : "Pay with Ziina"}
+            {submitting ? "Opening secure checkout…" : "Continue to secure payment"}
           </button>
         </aside>
       </div>

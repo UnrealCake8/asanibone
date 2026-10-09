@@ -14,6 +14,11 @@ export const publicEnv = {
 
 export const serverEnv = {
   supabaseSecretKey: () => required("SUPABASE_SECRET_KEY", process.env.SUPABASE_SECRET_KEY),
+  ngeniusApiKey: () => required("NGENIUS_API_KEY", process.env.NGENIUS_API_KEY),
+  ngeniusOutletId: () => required("NGENIUS_OUTLET_ID", process.env.NGENIUS_OUTLET_ID),
+  ngeniusIdentityUrl: () => process.env.NGENIUS_IDENTITY_URL || "https://api-gateway.ngenius-payments.com/identity/auth/access-token",
+  ngeniusGatewayUrl: () => process.env.NGENIUS_GATEWAY_URL || "https://api-gateway.ngenius-payments.com",
+  // Retained while legacy Ziina routes remain in the repository during migration.
   ziinaApiKey: () => required("ZIINA_API_KEY", process.env.ZIINA_API_KEY),
   ziinaApiBaseUrl: () => process.env.ZIINA_API_BASE_URL || "https://api-v2.ziina.com",
   ziinaWebhookSecret: () => required("ZIINA_WEBHOOK_SECRET", process.env.ZIINA_WEBHOOK_SECRET),

@@ -7,13 +7,13 @@ Mobile-first Next.js PWA for requesting an item from a physical shop and having 
 - Next.js 16 App Router / React 19 / Tailwind CSS 4
 - Vercel target deployment
 - Supabase Auth + Postgres with RLS
-- Ziina payment integration (server-side; credentials required)
+- Network International N-Genius hosted payment integration (server-side; credentials required)
 - Manual courier dispatch for the first production phase
 - Installable PWA shell and service worker
 
 ## Order flow
 
-Customer request → delivery details → server-owned quote → authenticated order creation → Ziina payment → manual courier assignment → purchase → delivery → receipt/final adjustment.
+Customer request → delivery details → server-owned quote → authenticated order creation → Network International payment → manual courier assignment → purchase → delivery → receipt/final adjustment.
 
 Pricing is always recalculated on the server. Client-supplied totals are never trusted.
 
@@ -23,7 +23,7 @@ Pricing is always recalculated on the server. Client-supplied totals are never t
 2. Apply `supabase/migrations/0001_initial.sql`.
 3. Copy `.env.example` to `.env.local`.
 4. Add the Supabase project URL, publishable key and secret key.
-5. Add Ziina API credentials.
+5. Add Network International API key and outlet ID.
 6. Run:
 
 ```bash
@@ -58,8 +58,8 @@ Before accepting real orders:
 
 - Dedicated Supabase project connected and migration applied
 - Auth redirect URLs configured for production domain
-- Ziina production credentials configured in Vercel
-- Ziina webhook signature/verification implemented against current Ziina docs
+- Network International production credentials configured in Vercel
+- Network International webhook status verification configured in the merchant portal
 - Admin route protected with verified claims + server-managed admin authorization
 - Real courier operating process/partner confirmed
 - Refund and cancellation paths tested
