@@ -1,10 +1,9 @@
 "use client";
 
-import { FormEvent, Suspense, useEffect, useMemo, useState } from "react";
+import { FormEvent, Suspense, useEffect, useState } from "react";
 import { ArrowLeft, ArrowRight, Link2, MapPin, Phone, Store } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { calculateQuote } from "@/lib/pricing";
 import { readOrderDraft, saveOrderDraft } from "@/lib/order-draft";
 
 function NewOrderForm() {
@@ -33,8 +32,6 @@ function NewOrderForm() {
       if (typeof draft.buffer === "number") setBuffer(draft.buffer);
     });
   }, []);
-
-  const quote = useMemo(() => calculateQuote(mode === "pickup" ? 0 : Math.max(0, estimate + buffer)), [mode, estimate, buffer]);
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -108,13 +105,11 @@ function NewOrderForm() {
           )}
         </section>
 
-        <aside className="request-summary-card">
-          {!isPickup ? <div><span>Item allowance</span><strong>AED {quote.itemAllowance.toFixed(2)}</strong></div> : null}
-          <div><span>{isPickup ? "Pickup and delivery" : "Delivery"}</span><strong>AED {quote.deliveryFee.toFixed(2)}</strong></div>
-          <div><span>Service fee</span><strong>AED {quote.serviceFee.toFixed(2)}</strong></div>
-          <div><span>Payment fee</span><strong>AED {quote.paymentFee.toFixed(2)}</strong></div>
-          <div className="summary-total"><span>Estimated maximum</span><strong>AED {quote.total.toFixed(2)}</strong></div>
-          <button className="primary-button" type="submit">{isPickup ? "Review and pay" : "Add delivery details"} <ArrowRight size={18} /></button>
+        <aside className="request-summary-card simple-summary">
+          <p className="eyebrow">NEXT</p>
+          <h2>Choose delivery</h2>
+          <p>Select your delivery route and timing first. We will show the full total before payment.</p>
+          <button className="primary-button" type="submit">{isPickup ? "Choose delivery" : "Add delivery details"} <ArrowRight size={18} /></button>
         </aside>
       </form>
     </main>
