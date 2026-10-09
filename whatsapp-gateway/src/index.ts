@@ -154,6 +154,22 @@ app.get("/session", async (request) => {
   };
 });
 
+app.post("/pairing-code", async (request, reply) => {
+  authorize(request.headers.authorization);
+  const body = request.body as { phone?: unknown };
+  if (typeof body?.phone !== "string") {
+    return reply.code(400).send({ error: "phone is required." });
+  }
+  if (!socket || socket.authState.creds.registered) {
+    return reply.code(409).send({ error: "WhatsApp is already paired or unavailable." });
+  }
+  const phone = body.phone.replace(/\D/g, "");
+  if (phone.length < 8 || phone.startsWith("0")) {
+    return reply.code(400).send({ error: "Use a full phone number including country code." });
+  }
+  return { pairingCode: await socket.requestPairingCode(phone) };
+});
+
 app.post("/messages", async (request, reply) => {
   authorize(request.headers.authorization);
   const body = request.body as { to?: unknown; text?: unknown; orderId?: unknown };
