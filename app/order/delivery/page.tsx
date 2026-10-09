@@ -107,7 +107,7 @@ export default function DeliveryPage() {
 
           <aside className="after-hours-card">
             <Clock3 size={20} />
-            <div><strong>Need delivery after 10 PM?</strong><p>For a delivery that cannot wait, contact us directly. Gia will coordinate it personally.</p>
+            <div><strong>Need delivery after 10 PM?</strong><p>For a delivery that cannot wait, contact us directly. The Asanib owner will coordinate it personally where possible.</p>
               <span><a href="tel:+971585235595"><Phone size={15} /> +971 58 523 5595</a><a href="mailto:support@asanib.com"><Mail size={15} /> support@asanib.com</a></span>
             </div>
           </aside>
