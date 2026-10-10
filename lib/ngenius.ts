@@ -15,7 +15,7 @@ async function accessToken() {
       Authorization: `Basic ${serverEnv.ngeniusApiKey()}`,
       "Content-Type": "application/vnd.ni-identity.v1+json",
     },
-    body: JSON.stringify({ grant_type: "client_credentials", realm: "networkinternational" }),
+    body: JSON.stringify({ realmName: "networkinternational" }),
     cache: "no-store",
   });
 
