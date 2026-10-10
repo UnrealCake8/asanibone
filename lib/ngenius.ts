@@ -5,7 +5,7 @@ type NgeniusAccessToken = { access_token?: string };
 type NgeniusOrder = {
   reference?: string;
   _links?: { payment?: { href?: string } };
-  _embedded?: { payment?: Array<{ state?: string }> };
+  _embedded?: { payment?: Array<{ state?: string; amount?: { value?: number; currencyCode?: string } }> };
 };
 
 async function accessToken() {
