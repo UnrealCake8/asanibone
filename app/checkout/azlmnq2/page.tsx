@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, CreditCard, LoaderCircle, ShieldCheck } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -10,6 +10,42 @@ function SpecialCheckoutContent() {
   const query = useSearchParams();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [paymentStatus, setPaymentStatus] = useState<"unknown" | "pending" | "paid">("unknown");
+  const [checking, setChecking] = useState(false);
+  const paymentId = query.get("payment");
+
+  useEffect(() => {
+    if (!paymentId || !query.has("returned")) return;
+    let active = true;
+    fetch("/api/payments/ngenius/special/status", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ paymentId }),
+    }).then(async (res) => {
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Verification unavailable.");
+      if (active) setPaymentStatus(data.status === "paid" ? "paid" : "pending");
+    }).catch((reason) => {
+      if (active) setError(reason instanceof Error ? reason.message : "Verification unavailable.");
+    });
+    return () => { active = false; };
+  }, [paymentId, query]);
+  async function recheckPayment() {
+    if (!paymentId) return;
+    setChecking(true);
+    setError("");
+    try {
+      const res = await fetch("/api/payments/ngenius/special/status", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ paymentId }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Verification unavailable.");
+      setPaymentStatus(data.status === "paid" ? "paid" : "pending");
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Verification unavailable.");
+    } finally { setChecking(false); }
+  }
 
   async function checkout() {
     setBusy(true);
@@ -46,7 +82,12 @@ function SpecialCheckoutContent() {
           <p className="eyebrow">CODE AZLMNQ2</p>
           <h2>Separate payment checkout</h2>
           <p>This is a standalone live payment for AED 20.00, not a delivery order. You will be redirected to Network International to pay securely.</p>
-          {query.has("returned") ? <p>Returned from checkout. Payment status is not verified here; confirm the transaction in your Network International dashboard.</p> : null}
+          {query.has("returned") ? (
+            <div role="status">
+              <p>{paymentStatus === "paid" ? "Payment confirmed by Network International." : paymentStatus === "pending" ? "Payment not yet confirmed. Check your bank before attempting another payment." : "Payment status unknown. Do not retry until you verify whether your bank was charged."}</p>
+              {paymentId ? <button type="button" className="primary-button" onClick={recheckPayment} disabled={checking}>{checking ? "Checking…" : "Check payment status"}</button> : null}
+            </div>
+          ) : null}
           {query.has("cancelled") ? <p>Checkout was cancelled. No payment confirmation was received.</p> : null}
           {error ? <p className="form-error" role="alert">{error}</p> : null}
         </section>
