@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   const origin = new URL(request.url).origin;
   try {
     const payment = await createNgeniusOrder({
-      amount: 500, // AED 5.00 in fils; never accept amount from the client
+      amount: 1000, // AED 10.00 in fils; never accept amount from the client
       email: typeof claims.claims.email === "string" ? claims.claims.email : undefined,
       description: "Asanib special checkout AZLMNQ1",
       redirectUrl: `${origin}/checkout/azlmnq1?returned=1`,
