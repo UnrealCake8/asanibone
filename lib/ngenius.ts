@@ -70,6 +70,26 @@ export async function createNgeniusOrder({
   return { reference: body.reference, redirectUrl: body._links.payment.href };
 }
 
+export async function verifyNgeniusReference(reference: string, expectedAmountFils: number) {
+  const token = await accessToken();
+  const response = await fetch(
+    `${serverEnv.ngeniusGatewayUrl()}/transactions/outlets/${encodeURIComponent(serverEnv.ngeniusOutletId())}/orders/${encodeURIComponent(reference)}`,
+    { headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.ni-payment.v2+json" }, cache: "no-store" }
+  );
+  if (!response.ok) throw new Error("Could not retrieve N-Genius transaction.");
+  const order = await response.json() as NgeniusOrder & {
+    amount?: { value?: number; currencyCode?: string };
+    _embedded?: { payment?: Array<{ state?: string; amount?: { value?: number; currencyCode?: string } }> };
+  };
+  if (order.reference && order.reference !== reference) throw new Error("Payment reference mismatch.");
+  const matches = (amount?: { value?: number; currencyCode?: string }) =>
+    amount?.value === expectedAmountFils && amount?.currencyCode === "AED";
+  const paid = order._embedded?.payment?.some(p =>
+    ["PURCHASED", "CAPTURED"].includes(p.state || "") && matches(p.amount || order.amount)
+  ) === true;
+  return { paid };
+}
+
 export async function syncNgeniusPaymentStatus(order: { id: string; status: string; ngenius_order_reference: string | null }) {
   if (!order.ngenius_order_reference) return { orderStatus: order.status };
 
