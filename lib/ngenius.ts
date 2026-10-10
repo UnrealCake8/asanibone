@@ -52,7 +52,7 @@ export async function createNgeniusOrder({
         amount: { currencyCode: "AED", value: amount },
         emailAddress: email || undefined,
         language: "en",
-        merchantAttributes: { redirectUrl, cancelUrl, skipConfirmationPage: true },
+        merchantAttributes: { redirectUrl, cancelUrl, skipConfirmationPage: false },
         orderSummary: {
           total: { currencyCode: "AED", value: amount },
           items: [{ description, quantity: 1, totalPrice: { currencyCode: "AED", value: amount } }],
